@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>important dates | in case you forgot....</title>
+  <meta name="theme-color" content="#838F58">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8D%93%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="dates">
+  <main class="cd">
+    <nav class="cd-top" aria-label="Pages">
+      <span>important dates</span>
+      <a href="index.html">home</a>
+    </nav>
+
+    <h1 class="dates-title">in case you forgot....</h1>
+
+    <!-- СПИСОК ВАЖНЫХ ДАТ: чтобы добавить дату, скопируй строку <li> -->
+    <div class="dates-row">
+    <ul class="dates-list">
+      <li><time>02.09</time><span>our anniversary</span></li>
+      <li><time>01.01</time><span>natusik birthday</span></li>
+      <li><time>06.08</time><span>vovchik birthday</span></li>
+    </ul>
+
+      <button class="cd-pic dates-pic" type="button" data-move="pulse" aria-label="Pulse the i luv u kitten">
+        <img src="images/dates-1.jpeg" alt="Fluffy white kitten close to the camera. Caption: i luv u">
+      </button>
+    </div>
+
+    <div class="cal-months three" id="months"></div>
+  </main>
+
+  <script>
+    // ===== НАСТРОЙКИ =====
+    // Какие месяцы показывать: [год, месяц]
+    var MONTHS = [[2026, 10], [2026, 11], [2026, 12]];
+
+    // Какие дни обвести росчерком и что написать в облачке
+    var MARKS = {
+      "2026-10-02": "1 month",
+      "2026-11-02": "2 months",
+      "2026-12-02": "3 months"
+    };
+    // =====================
+
+    var MONTH_NAMES = ["january", "february", "march", "april", "may", "june", "july",
+                       "august", "september", "october", "november", "december"];
+    var WEEKDAYS = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"];
+
+    // росчерк: кружок от руки в полтора оборота
+    var SCRIBBLE = '<path d="M70 16C46 2 12 14 8 44c-4 28 18 48 44 46 26-2 44-22 40-46C88 20 62 8 38 16 16 24 8 46 16 66c8 18 30 26 50 20 16-5 26-18 28-34"/>';
+
+    function iso(y, m, d) {
+      return y + "-" + (m < 10 ? "0" : "") + m + "-" + (d < 10 ? "0" : "") + d;
+    }
+
+    function buildMonth(year, month) {
+      var section = document.createElement("section");
+      var h = document.createElement("h2");
+      h.className = "cal-month-name";
+      h.innerHTML = MONTH_NAMES[month - 1] + " <span>" + year + "</span>";
+      section.appendChild(h);
+
+      var grid = document.createElement("div");
+      grid.className = "cal-grid";
+      WEEKDAYS.forEach(function (w) {
+        var el = document.createElement("div");
+        el.className = "cal-wd";
+        el.textContent = w;
+        grid.appendChild(el);
+      });
+
+      var daysInMonth = new Date(year, month, 0).getDate();
+      var offset = (new Date(year, month - 1, 1).getDay() + 6) % 7; // понедельник = 0
+
+      for (var d = 1; d <= daysInMonth; d++) {
+        var label = MARKS[iso(year, month, d)];
+        var col = (offset + d - 1) % 7;
+
+        // обведённый день - кнопка, обычный день - просто число
+        var cell = document.createElement(label ? "button" : "div");
+        cell.className = "cal-day";
+        if (d === 1) cell.style.gridColumnStart = offset + 1;
+        cell.innerHTML = '<span class="num">' + d + "</span>";
+
+        if (label) {
+          cell.type = "button";
+          cell.classList.add("scribble");
+          cell.setAttribute("aria-expanded", "false");
+          cell.insertAdjacentHTML("beforeend",
+            '<svg viewBox="0 0 100 100" aria-hidden="true">' + SCRIBBLE + "</svg>" +
+            '<span class="cal-note' + (col === 0 ? " at-start" : col === 6 ? " at-end" : "") + '">' +
+            '<span class="cloud">' + label + "</span></span>");
+        }
+        grid.appendChild(cell);
+      }
+
+      section.appendChild(grid);
+      return section;
+    }
+
+    var root = document.getElementById("months");
+    MONTHS.forEach(function (m) { root.appendChild(buildMonth(m[0], m[1])); });
+
+    // ===== ОБЛАЧКО ПО НАЖАТИЮ НА ОБВЕДЁННУЮ ДАТУ =====
+    function closeAll(except) {
+      document.querySelectorAll("button.cal-day.open").forEach(function (b) {
+        if (b !== except) { b.classList.remove("open"); b.setAttribute("aria-expanded", "false"); }
+      });
+    }
+
+    document.addEventListener("click", function (e) {
+      var btn = e.target.closest("button.cal-day");
+      closeAll(btn);                       // нажатие мимо или на другую дату закрывает облачко
+      if (btn) {
+        var open = btn.classList.toggle("open");
+        btn.setAttribute("aria-expanded", open ? "true" : "false");
+      }
+    });
+
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape") closeAll();
+    });
+
+    // ===== КАРТИНКА ШЕВЕЛИТСЯ ПО НАЖАТИЮ =====
+    document.querySelectorAll(".cd-pic").forEach(function (pic) {
+      pic.addEventListener("click", function () {
+        pic.classList.remove("is-moving");
+        void pic.offsetWidth;
+        pic.classList.add("is-moving");
+      });
+      pic.addEventListener("animationend", function () {
+        pic.classList.remove("is-moving");
+      });
+    });
+  </script>
+</body>
+</html>

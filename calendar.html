@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>calendar | our schedule</title>
+  <meta name="theme-color" content="#D7EEFC">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%97%93%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="calendar">
+  <main class="cd">
+    <nav class="cd-top" aria-label="Pages">
+      <span>calendar</span>
+      <a href="index.html">home</a>
+    </nav>
+
+    <div class="cal-hero">
+      <h1 class="cal-title">our schedule</h1>
+
+      <div class="cal-pics">
+        <button class="cd-pic" type="button" data-move="jump" aria-label="Make the teleport kitten jump">
+          <img src="images/calendar-1.jpeg" alt="Fluffy kitten in a foggy forest. Caption: teleport to me">
+        </button>
+        <button class="cd-pic" type="button" data-move="shake" aria-label="Shake the white kitten">
+          <img src="images/calendar-2.jpeg" alt="White kitten sitting on a dark sofa. Caption: i miss my man">
+        </button>
+      </div>
+    </div>
+
+    <div class="cal-months" id="months"></div>
+  </main>
+
+  <script>
+    // ===== НАСТРОЙКИ =====
+    // Какие месяцы показывать: [год, месяц]
+    var MONTHS = [[2026, 10], [2026, 11]];
+
+    // Встречи: с какого по какое число (включительно),
+    // цвет сердечек ("pink" или "blue") и текст в облачке
+    var RANGES = [
+      { from: "2026-10-09", to: "2026-10-11", color: "pink", label: "natusik in moscow" },
+      { from: "2026-10-16", to: "2026-10-18", color: "blue", label: "vovchik in saint-p" },
+      { from: "2026-10-31", to: "2026-11-04", color: "pink", label: "natusik in moscow" }
+    ];
+    // =====================
+
+    var MONTH_NAMES = ["january", "february", "march", "april", "may", "june", "july",
+                       "august", "september", "october", "november", "december"];
+    var WEEKDAYS = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"];
+
+    var HEART = '<path d="M50 90C22 68 5 50 5 30 5 15 16 6 29 6c10 0 17 5 21 14 4-9 11-14 21-14 13 0 24 9 24 24 0 20-17 38-45 60Z"/>';
+    var CROSS = '<path class="cross" d="M16 12 84 84M85 13 15 83"/>';
+
+    function iso(y, m, d) {
+      return y + "-" + (m < 10 ? "0" : "") + m + "-" + (d < 10 ? "0" : "") + d;
+    }
+
+    // Сегодняшняя дата по Москве (UTC+3). Дни зачёркиваются, когда они прошли.
+    function todayMoscow() {
+      var test = new URLSearchParams(location.search).get("today"); // для проверки: ?today=2026-10-17
+      if (test) return test;
+      var t = new Date(Date.now() + 3 * 3600 * 1000);
+      return iso(t.getUTCFullYear(), t.getUTCMonth() + 1, t.getUTCDate());
+    }
+
+    function rangeIndex(date) {
+      for (var i = 0; i < RANGES.length; i++) {
+        if (date >= RANGES[i].from && date <= RANGES[i].to) return i;
+      }
+      return -1;
+    }
+
+    function buildMonth(year, month, today) {
+      var section = document.createElement("section");
+      var h = document.createElement("h2");
+      h.className = "cal-month-name";
+      h.innerHTML = MONTH_NAMES[month - 1] + " <span>" + year + "</span>";
+      section.appendChild(h);
+
+      var grid = document.createElement("div");
+      grid.className = "cal-grid";
+      WEEKDAYS.forEach(function (w) {
+        var el = document.createElement("div");
+        el.className = "cal-wd";
+        el.textContent = w;
+        grid.appendChild(el);
+      });
+
+      var daysInMonth = new Date(year, month, 0).getDate();
+      var offset = (new Date(year, month - 1, 1).getDay() + 6) % 7; // понедельник = 0
+
+      for (var d = 1; d <= daysInMonth; d++) {
+        var date = iso(year, month, d);
+        var col = (offset + d - 1) % 7;
+        var r = rangeIndex(date);
+
+        // день с сердечком - кнопка, обычный день - просто число
+        var cell = document.createElement(r >= 0 ? "button" : "div");
+        cell.className = "cal-day";
+        if (d === 1) cell.style.gridColumnStart = offset + 1;
+        cell.innerHTML = '<span class="num">' + d + "</span>";
+
+        if (r >= 0) {
+          cell.type = "button";
+          cell.classList.add(RANGES[r].color);
+          if (date < today) cell.classList.add("past");
+          cell.setAttribute("aria-expanded", "false");
+          cell.insertAdjacentHTML("beforeend",
+            '<svg viewBox="0 0 100 100" aria-hidden="true">' + HEART + CROSS + "</svg>" +
+            '<span class="cal-note' + (col === 0 ? " at-start" : col === 6 ? " at-end" : "") + '">' +
+            '<span class="cloud">' + RANGES[r].label + "</span></span>");
+        }
+        grid.appendChild(cell);
+      }
+
+      section.appendChild(grid);
+      return section;
+    }
+
+    var today = todayMoscow();
+    var root = document.getElementById("months");
+    MONTHS.forEach(function (m) { root.appendChild(buildMonth(m[0], m[1], today)); });
+
+    // ===== ОБЛАЧКО ПО НАЖАТИЮ НА ДАТУ С СЕРДЕЧКОМ =====
+    function closeAll(except) {
+      document.querySelectorAll("button.cal-day.open").forEach(function (b) {
+        if (b !== except) { b.classList.remove("open"); b.setAttribute("aria-expanded", "false"); }
+      });
+    }
+
+    document.addEventListener("click", function (e) {
+      var btn = e.target.closest("button.cal-day");
+      closeAll(btn);                       // нажатие мимо или на другую дату закрывает облачко
+      if (btn) {
+        var open = btn.classList.toggle("open");
+        btn.setAttribute("aria-expanded", open ? "true" : "false");
+      }
+    });
+
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape") closeAll();
+    });
+
+    // ===== КАРТИНКИ ШЕВЕЛЯТСЯ ПО НАЖАТИЮ =====
+    document.querySelectorAll(".cd-pic").forEach(function (pic) {
+      pic.addEventListener("click", function () {
+        pic.classList.remove("is-moving");
+        void pic.offsetWidth;
+        pic.classList.add("is-moving");
+      });
+      pic.addEventListener("animationend", function () {
+        pic.classList.remove("is-moving");
+      });
+    });
+  </script>
+</body>
+</html>

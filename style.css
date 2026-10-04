@@ -1,0 +1,684 @@
+/* ============================================================
+   Общие стили для всех страниц
+   Шрифт: Poppins ExtraBold (файл fonts/Poppins-ExtraBold.woff2)
+   ============================================================ */
+
+@font-face {
+  font-family: "Poppins";
+  src: url("fonts/Poppins-ExtraBold.woff2") format("woff2");
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Цвета страницы. На других страницах можно переопределить
+   эти три переменные и получить другую палитру. */
+:root {
+  --bg: #F3619C;        /* розовый фон */
+  --bg-deep: #E64689;   /* розовый потемнее, для рисунков на фоне */
+  --ink: #EDE986;       /* жёлтый текст */
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { height: 100%; }
+
+body {
+  margin: 0;
+  min-height: 100%;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: "Poppins", "Arial Black", "Helvetica Neue", Arial, sans-serif;
+  font-weight: 800;
+  text-transform: lowercase;   /* всё маленькими буквами */
+  line-height: 1.1;
+  -webkit-font-smoothing: antialiased;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* ---------- Фон: сердечки и цветочки ---------- */
+/* Рисунки заданы масками, поэтому красятся в цвета из переменных. */
+
+body::before,
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* залитые фигуры, розовый потемнее */
+body::before {
+  background: var(--bg-deep);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='320' viewBox='0 0 320 320'%3E%3Cg fill='%23000'%3E%3Cpath transform='translate(60 50) rotate(-14) scale(1.5)' d='M0 7C-7-7-23 0-13 14L1 27 13 13C22 1 7-7 0 7Z'/%3E%3Cg transform='translate(235 95) rotate(12)'%3E%3Ccircle cx='0' cy='-17' r='12'/%3E%3Ccircle cx='16' cy='-5' r='12'/%3E%3Ccircle cx='10' cy='14' r='12'/%3E%3Ccircle cx='-10' cy='14' r='12'/%3E%3Ccircle cx='-16' cy='-5' r='12'/%3E%3C/g%3E%3Cpath transform='translate(150 215) rotate(18) scale(1.1)' d='M0 7C-7-7-23 0-13 14L1 27 13 13C22 1 7-7 0 7Z'/%3E%3Cg transform='translate(45 255) rotate(-20) scale(.7)'%3E%3Ccircle cx='0' cy='-17' r='12'/%3E%3Ccircle cx='16' cy='-5' r='12'/%3E%3Ccircle cx='10' cy='14' r='12'/%3E%3Ccircle cx='-10' cy='14' r='12'/%3E%3Ccircle cx='-16' cy='-5' r='12'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") 0 0 / 320px 320px repeat;
+          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='320' viewBox='0 0 320 320'%3E%3Cg fill='%23000'%3E%3Cpath transform='translate(60 50) rotate(-14) scale(1.5)' d='M0 7C-7-7-23 0-13 14L1 27 13 13C22 1 7-7 0 7Z'/%3E%3Cg transform='translate(235 95) rotate(12)'%3E%3Ccircle cx='0' cy='-17' r='12'/%3E%3Ccircle cx='16' cy='-5' r='12'/%3E%3Ccircle cx='10' cy='14' r='12'/%3E%3Ccircle cx='-10' cy='14' r='12'/%3E%3Ccircle cx='-16' cy='-5' r='12'/%3E%3C/g%3E%3Cpath transform='translate(150 215) rotate(18) scale(1.1)' d='M0 7C-7-7-23 0-13 14L1 27 13 13C22 1 7-7 0 7Z'/%3E%3Cg transform='translate(45 255) rotate(-20) scale(.7)'%3E%3Ccircle cx='0' cy='-17' r='12'/%3E%3Ccircle cx='16' cy='-5' r='12'/%3E%3Ccircle cx='10' cy='14' r='12'/%3E%3Ccircle cx='-10' cy='14' r='12'/%3E%3Ccircle cx='-16' cy='-5' r='12'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") 0 0 / 320px 320px repeat;
+}
+
+/* контурные каракули и серединки цветов, жёлтый */
+body::after {
+  background: var(--ink);
+  opacity: .55;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='320' viewBox='0 0 320 320'%3E%3Cg fill='none' stroke='%23000' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath transform='translate(270 235) rotate(10) scale(.9)' d='M0 7C-7-7-23 0-13 14L1 27 13 13C22 1 7-7 0 7Z'/%3E%3Cpath transform='translate(150 60) rotate(-22) scale(.6)' stroke-width='5' d='M0 7C-7-7-23 0-13 14L1 27 13 13C22 1 7-7 0 7Z'/%3E%3Cg transform='translate(110 150) rotate(-8) scale(.75)' stroke-width='4'%3E%3Ccircle cx='0' cy='-15' r='9'/%3E%3Ccircle cx='14' cy='-5' r='9'/%3E%3Ccircle cx='9' cy='12' r='9'/%3E%3Ccircle cx='-9' cy='12' r='9'/%3E%3Ccircle cx='-14' cy='-5' r='9'/%3E%3C/g%3E%3C/g%3E%3Cg fill='%23000'%3E%3Ccircle cx='235' cy='95' r='7'/%3E%3Ccircle cx='45' cy='255' r='5'/%3E%3Ccircle cx='200' cy='170' r='3'/%3E%3Ccircle cx='20' cy='140' r='3'/%3E%3Ccircle cx='300' cy='20' r='3'/%3E%3Ccircle cx='215' cy='295' r='3'/%3E%3C/g%3E%3C/svg%3E") 0 0 / 320px 320px repeat;
+          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='320' viewBox='0 0 320 320'%3E%3Cg fill='none' stroke='%23000' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath transform='translate(270 235) rotate(10) scale(.9)' d='M0 7C-7-7-23 0-13 14L1 27 13 13C22 1 7-7 0 7Z'/%3E%3Cpath transform='translate(150 60) rotate(-22) scale(.6)' stroke-width='5' d='M0 7C-7-7-23 0-13 14L1 27 13 13C22 1 7-7 0 7Z'/%3E%3Cg transform='translate(110 150) rotate(-8) scale(.75)' stroke-width='4'%3E%3Ccircle cx='0' cy='-15' r='9'/%3E%3Ccircle cx='14' cy='-5' r='9'/%3E%3Ccircle cx='9' cy='12' r='9'/%3E%3Ccircle cx='-9' cy='12' r='9'/%3E%3Ccircle cx='-14' cy='-5' r='9'/%3E%3C/g%3E%3C/g%3E%3Cg fill='%23000'%3E%3Ccircle cx='235' cy='95' r='7'/%3E%3Ccircle cx='45' cy='255' r='5'/%3E%3Ccircle cx='200' cy='170' r='3'/%3E%3Ccircle cx='20' cy='140' r='3'/%3E%3Ccircle cx='300' cy='20' r='3'/%3E%3Ccircle cx='215' cy='295' r='3'/%3E%3C/g%3E%3C/svg%3E") 0 0 / 320px 320px repeat;
+}
+
+/* ---------- Заглавная страница ---------- */
+
+.landing {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  min-height: 100svh;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: clamp(24px, 5vw, 64px);
+  display: grid;
+  grid-template-columns: 1.25fr 1fr;
+  grid-template-rows: 1fr auto;
+  gap: clamp(28px, 5vw, 64px);
+  align-items: center;
+}
+
+.landing-title {
+  margin: 0;
+  font-size: clamp(2.6rem, 7.6vw, 6.5rem);
+  line-height: 1;
+  letter-spacing: -.02em;
+  /* подложка цвета фона, чтобы рисунки не мешали читать */
+  text-shadow: 0 0 18px var(--bg), 0 0 18px var(--bg), 0 0 6px var(--bg);
+}
+
+.landing-sub {
+  display: inline-block;
+  margin: clamp(18px, 3vw, 32px) 0 0;
+  padding: .5em 1.1em .55em;
+  border-radius: 999px;
+  background: var(--ink);
+  color: var(--bg);
+  font-size: clamp(1.05rem, 2.4vw, 1.9rem);
+  transform: rotate(-2deg);
+}
+
+.landing-photo {
+  margin: 0;
+  justify-self: center;
+  width: min(100%, 440px);
+  transform: rotate(4deg);
+}
+
+.landing-photo img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 8px solid var(--ink);
+  border-radius: 36px;
+  background: var(--ink);
+}
+
+.landing-nav {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(12px, 2vw, 24px);
+}
+
+.pill {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.9em;
+  padding: .3em 1em;
+  line-height: 1;
+  border: 4px solid var(--ink);
+  border-radius: 999px;
+  background: var(--bg);
+  color: var(--ink);
+  font-size: clamp(1.1rem, 2.2vw, 1.75rem);
+  white-space: nowrap;
+  text-align: center;
+  text-decoration: none;
+  transition: background-color .15s, color .15s, transform .15s;
+}
+
+.pill:hover,
+.pill:focus-visible {
+  background: var(--ink);
+  color: var(--bg);
+  transform: translateY(-4px) rotate(-1.5deg);
+}
+
+.pill:focus-visible {
+  outline: 4px solid var(--bg);
+  outline-offset: 4px;
+  box-shadow: 0 0 0 12px var(--ink);
+}
+
+@media (max-width: 760px) {
+  .landing {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    align-content: center;
+    text-align: center;
+  }
+  .landing-title { font-size: clamp(2.6rem, 15vw, 5rem); }
+  .landing-photo { width: min(82%, 360px); }
+  .landing-nav { grid-template-columns: 1fr; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pill { transition: none; }
+  .pill:hover, .pill:focus-visible { transform: none; }
+}
+
+
+/* ============================================================
+   Страница со счётчиком (body class="countdown")
+   ============================================================ */
+
+body.countdown {
+  --bg: #0A0A0A;        /* чёрный фон */
+  --ink: #E10A1E;       /* красный текст */
+  --paper: #EFE4B8;     /* кремовые рамки картинок */
+}
+
+/* Фон: эмодзи огонёчков, приглушённые по цвету */
+body.countdown::before {
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300' viewBox='0 0 300 300'%3E%3Ctext x='40' y='70' font-size='44' transform='rotate(-12 40 70)'%3E%F0%9F%94%A5%3C/text%3E%3Ctext x='200' y='120' font-size='30' transform='rotate(10 200 120)'%3E%F0%9F%94%A5%3C/text%3E%3Ctext x='110' y='210' font-size='54' transform='rotate(6 110 210)'%3E%F0%9F%94%A5%3C/text%3E%3Ctext x='245' y='265' font-size='24' transform='rotate(-18 245 265)'%3E%F0%9F%94%A5%3C/text%3E%3Ctext x='20' y='275' font-size='22' transform='rotate(14 20 275)'%3E%F0%9F%94%A5%3C/text%3E%3C/svg%3E") 0 0 / 300px 300px repeat;
+  -webkit-mask: none;
+          mask: none;
+  /* приглушение: меньше насыщенности, яркости и прозрачнее */
+  filter: saturate(.45) brightness(.7);
+  opacity: .32;
+}
+
+body.countdown::after { display: none; }
+
+.cd {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  min-height: 100svh;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: clamp(16px, 3vw, 32px) clamp(20px, 5vw, 64px) clamp(32px, 5vw, 64px);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(20px, 3.5vw, 44px);
+}
+
+.cd-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+  padding-top: 12px;
+  border-top: 3px solid var(--ink);
+  font-size: clamp(.95rem, 1.5vw, 1.2rem);
+}
+
+.cd-top a {
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 3px solid transparent;
+}
+
+.cd-top a:hover,
+.cd-top a:focus-visible {
+  border-bottom-color: var(--ink);
+  outline: none;
+}
+
+.cd-title {
+  margin: 0;
+  font-size: clamp(2.5rem, 7.9vw, 6.6rem);
+  line-height: 1;
+  letter-spacing: -.02em;
+  text-shadow: 0 0 20px var(--bg), 0 0 20px var(--bg);
+}
+
+.cd-when {
+  margin: clamp(10px, 1.5vw, 18px) 0 0;
+  font-size: clamp(1rem, 1.9vw, 1.5rem);
+}
+
+.cd-timer {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: clamp(10px, 2vw, 28px);
+  margin: 0;
+  padding: clamp(14px, 2.2vw, 26px) 0;
+  border-top: 3px solid var(--ink);
+  border-bottom: 3px solid var(--ink);
+  background: var(--bg);
+}
+
+.cd-unit { display: flex; flex-direction: column-reverse; }
+
+.cd-num {
+  margin: 0;
+  font-size: clamp(3rem, 12.5vw, 10.5rem);
+  line-height: .95;
+  letter-spacing: -.03em;
+  font-variant-numeric: tabular-nums;
+}
+
+.cd-label {
+  margin-top: .5em;
+  font-size: clamp(.85rem, 1.7vw, 1.35rem);
+}
+
+.cd-done {
+  margin: 0;
+  font-size: clamp(1.4rem, 4vw, 3rem);
+}
+
+/* заголовок слева, стопка картинок-наклеек справа */
+.cd-hero {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: clamp(20px, 4vw, 56px);
+  align-items: center;
+}
+
+.cd-pile {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  width: 100%;
+  max-width: 500px;
+  justify-self: end;
+}
+
+.cd-pile .cd-pic {
+  position: absolute;
+  transition: scale .15s;
+}
+
+.cd-pile .cd-pic:hover,
+.cd-pile .cd-pic:focus-visible,
+.cd-pile .cd-pic.is-moving { z-index: 5; }
+.cd-pile .cd-pic:hover { scale: 1.04; }
+
+.cd-pile .cd-pic:nth-child(1) { left: 0;   top: 5%;  width: 49%; rotate: -8deg; z-index: 1; }
+.cd-pile .cd-pic:nth-child(2) { left: 47%; top: 0;   width: 44%; rotate: 6deg;  z-index: 2; }
+.cd-pile .cd-pic:nth-child(3) { left: 7%;  top: 53%; width: 43%; rotate: 5deg;  z-index: 3; }
+.cd-pile .cd-pic:nth-child(4) { left: 50%; top: 47%; width: 49%; rotate: -5deg; z-index: 4; }
+
+.cd-pic {
+  display: block;
+  padding: 0;
+  border: 4px solid var(--paper);
+  border-radius: clamp(18px, 2.6vw, 34px);
+  background: var(--paper);
+  overflow: hidden;
+  cursor: pointer;
+  aspect-ratio: 1 / 1;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.cd-pic img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cd-pic:focus-visible {
+  outline: 4px solid var(--ink);
+  outline-offset: 4px;
+}
+
+/* движения по нажатию: у каждой картинки своё */
+.cd-pic.is-moving[data-move="shake"]  { animation: cd-shake .7s ease-in-out; }
+.cd-pic.is-moving[data-move="jump"]   { animation: cd-jump .7s cubic-bezier(.3, .6, .4, 1); }
+.cd-pic.is-moving[data-move="spin"]   { animation: cd-spin .8s cubic-bezier(.4, 0, .2, 1); }
+.cd-pic.is-moving[data-move="pulse"]  { animation: cd-pulse .8s ease-in-out; }
+
+@keyframes cd-shake {
+  0%, 100% { transform: rotate(0); }
+  15% { transform: rotate(-9deg); }
+  30% { transform: rotate(8deg); }
+  45% { transform: rotate(-6deg); }
+  60% { transform: rotate(5deg); }
+  80% { transform: rotate(-2deg); }
+}
+
+@keyframes cd-jump {
+  0%, 100% { transform: translateY(0) scale(1, 1); }
+  20% { transform: translateY(0) scale(1.08, .9); }
+  45% { transform: translateY(-22%) scale(.95, 1.06); }
+  70% { transform: translateY(0) scale(1.06, .94); }
+  85% { transform: translateY(-6%) scale(1, 1); }
+}
+
+@keyframes cd-spin {
+  0% { transform: rotate(0) scale(1); }
+  50% { transform: rotate(180deg) scale(.8); }
+  100% { transform: rotate(360deg) scale(1); }
+}
+
+@keyframes cd-pulse {
+  0%, 100% { transform: scale(1); }
+  20% { transform: scale(1.14); }
+  40% { transform: scale(.96); }
+  60% { transform: scale(1.1); }
+  80% { transform: scale(.99); }
+}
+
+@media (max-width: 760px) {
+  .cd-title { font-size: clamp(2.2rem, 11.5vw, 5rem); }
+  .cd-timer { grid-template-columns: repeat(2, 1fr); row-gap: 22px; }
+  .cd-num { font-size: clamp(3.6rem, 25vw, 8rem); }
+  /* на телефоне: заголовок, счётчик, потом стопка картинок */
+  .cd-hero { display: contents; }
+  .cd-pile { order: 2; align-self: center; max-width: 420px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cal-day.open .cloud { animation: none; }
+  .cd-pic.is-moving { animation-duration: .01s !important; }
+}
+
+
+/* ============================================================
+   Страница с календарём (body class="calendar")
+   ============================================================ */
+
+body.calendar {
+  --bg: #D7EEFC;        /* голубой фон */
+  --ink: #4E4187;       /* фиолетовый текст */
+  --pink: #F3619C;      /* розовые сердечки */
+  --blue: #2B7BF0;      /* синие сердечки */
+  --paper: #4E4187;     /* рамки картинок */
+}
+
+body.calendar::before,
+body.calendar::after { display: none; }
+
+.cal-title {
+  margin: 0;
+  font-size: clamp(2.8rem, 9vw, 7.5rem);
+  line-height: 1;
+  letter-spacing: -.02em;
+}
+
+.cal-months {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: clamp(32px, 6vw, 88px);
+  align-items: start;
+}
+
+.cal-month-name {
+  margin: 0 0 clamp(10px, 1.5vw, 18px);
+  padding-bottom: clamp(8px, 1.2vw, 14px);
+  border-bottom: 3px solid var(--ink);
+  font-size: clamp(1.6rem, 3.4vw, 2.8rem);
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.cal-month-name span { font-size: .5em; }
+
+.cal-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  row-gap: clamp(4px, .8vw, 12px);
+}
+
+.cal-wd {
+  font-size: clamp(.7rem, 1.2vw, 1rem);
+  text-align: center;
+  opacity: .7;
+}
+
+.cal-day {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  display: grid;
+  place-items: center;
+  font-size: clamp(1rem, 1.9vw, 1.6rem);
+}
+
+/* дни с сердечками - это кнопки: по нажатию появляется облачко */
+button.cal-day {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  font-size: clamp(1rem, 1.9vw, 1.6rem);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+button.cal-day:focus-visible {
+  outline: 3px solid var(--ink);
+  outline-offset: 2px;
+  border-radius: 12px;
+}
+
+button.cal-day:hover svg,
+button.cal-day.open svg { transform: scale(1.08); }
+
+.cal-day svg { transition: transform .15s; }
+
+.cal-day .num { position: relative; z-index: 1; transform: translateY(-8%); }
+
+/* сердечко-обводка и крестик */
+.cal-day svg {
+  position: absolute;
+  inset: -4%;
+  width: 108%;
+  height: 108%;
+  overflow: visible;
+  fill: none;
+  stroke-width: 5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.cal-day.pink svg { stroke: var(--pink); }
+.cal-day.blue svg { stroke: var(--blue); }
+
+.cal-day .cross { display: none; stroke-width: 7; }
+.cal-day.past .cross { display: block; }
+.cal-day.past .num { opacity: .55; }
+
+/* облачко с комментарием */
+.cal-note {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  bottom: 96%;
+  z-index: 2;
+  display: none;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.cal-day.open { z-index: 3; }
+.cal-day.open .cal-note { display: flex; }
+.cal-day.open .cloud { animation: cloud-pop .22s cubic-bezier(.3, 1.4, .5, 1); }
+
+@keyframes cloud-pop {
+  from { transform: translateY(8px) scale(.6); opacity: 0; }
+  to   { transform: none; opacity: 1; }
+}
+
+/* у крайних колонок облачко прижато к краю, чтобы не вылезать за экран */
+.cal-note.at-start .cloud::after { left: 22px; }
+.cal-note.at-end .cloud::after { left: auto; right: 26px; }
+
+.cal-note.at-start { justify-content: flex-start; }
+.cal-note.at-end { justify-content: flex-end; }
+
+.cloud {
+  position: relative;
+  isolation: isolate;
+  flex: none;
+  margin-bottom: 9px;
+  padding: .4em .95em .5em;
+  border-radius: 999px;
+  background: var(--ink);
+  color: var(--bg);
+  font-size: clamp(.8rem, 1.25vw, 1.05rem);
+  white-space: nowrap;
+  transform-origin: 50% 100%;
+}
+
+/* бугорки облачка */
+.cloud::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  left: 18%;
+  top: -.5em;
+  width: 1.5em;
+  height: 1.5em;
+  border-radius: 50%;
+  background: var(--ink);
+  box-shadow: 1.5em -.2em 0 .22em var(--ink), 3.4em .15em 0 -.05em var(--ink);
+}
+
+/* хвостик из кружочков */
+.cloud::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -7px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--ink);
+  box-shadow: 7px 8px 0 -2px var(--ink);
+}
+
+/* заголовок слева, две картинки-наклейки внахлёст справа */
+.cal-hero {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: clamp(20px, 4vw, 56px);
+}
+
+.cal-pics {
+  flex: none;
+  display: flex;
+  align-items: flex-start;
+  padding: 12px 8px 30px 0;
+}
+
+.cal-pics .cd-pic {
+  width: clamp(130px, 15vw, 190px);
+  transition: scale .15s;
+}
+
+.cal-pics .cd-pic:hover { scale: 1.05; z-index: 3; }
+.cal-pics .cd-pic.is-moving { z-index: 3; }
+.cal-pics .cd-pic:nth-child(1) { rotate: -7deg; position: relative; z-index: 1; }
+.cal-pics .cd-pic:nth-child(2) { rotate: 6deg; position: relative; z-index: 2; margin: 26px 0 0 -22px; }
+
+@media (max-width: 860px) {
+  .cal-months { grid-template-columns: 1fr; gap: 48px; }
+  .cal-hero { flex-direction: column; align-items: flex-start; gap: 8px; }
+  .cal-pics { align-self: center; }
+  .cal-pics .cd-pic { width: min(40vw, 170px); }
+  button.cal-day { font-size: 1.15rem; }
+  .cal-title { font-size: clamp(2.8rem, 15vw, 6rem); }
+  .cal-day { font-size: 1.15rem; }
+  .cal-wd { font-size: .78rem; }
+  .cloud { font-size: .82rem; }
+}
+
+
+/* ============================================================
+   Страница с важными датами (body class="dates")
+   ============================================================ */
+
+body.dates {
+  --bg: #838F58;        /* матча, фон */
+  --ink: #F9D1D9;       /* строуберри, текст */
+  --paper: #F9D1D9;     /* рамка картинки */
+}
+
+body.dates::before,
+body.dates::after { display: none; }
+
+.dates-title {
+  margin: 0;
+  font-size: clamp(2.4rem, 7.6vw, 6.4rem);
+  line-height: 1.02;
+  letter-spacing: -.02em;
+}
+
+/* список дат слева, картинка справа */
+.dates-row {
+  display: grid;
+  grid-template-columns: 1fr clamp(220px, 27vw, 340px);
+  gap: clamp(28px, 5vw, 72px);
+  align-items: center;
+}
+
+.dates-pic { rotate: 4deg; }
+
+/* список важных дат */
+.dates-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 3px solid var(--ink);
+}
+
+.dates-list li {
+  display: flex;
+  align-items: baseline;
+  gap: clamp(16px, 4vw, 56px);
+  padding: clamp(10px, 1.6vw, 20px) 0 clamp(12px, 1.8vw, 22px);
+  border-bottom: 3px solid var(--ink);
+}
+
+.dates-list time {
+  flex: none;
+  min-width: 3.2em;
+  font-size: clamp(2.2rem, 6.5vw, 5.2rem);
+  line-height: .9;
+  letter-spacing: -.02em;
+}
+
+.dates-list span { font-size: clamp(1.1rem, 2.6vw, 2.1rem); }
+
+/* три месяца в ряд */
+.cal-months.three {
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(24px, 3.6vw, 52px);
+}
+
+.cal-months.three .cal-month-name { font-size: clamp(1.4rem, 2.5vw, 2.1rem); }
+.cal-months.three .cal-day { font-size: clamp(.95rem, 1.45vw, 1.25rem); }
+.cal-months.three .cal-wd { font-size: clamp(.62rem, .95vw, .82rem); }
+
+/* неаккуратный кружочек-росчерк */
+.cal-day.scribble svg {
+  stroke: var(--ink);
+  stroke-width: 3.5;
+  inset: -12%;
+  width: 124%;
+  height: 124%;
+}
+
+.cal-day.scribble .num { transform: none; }
+
+@media (max-width: 860px) {
+  .dates-title { font-size: clamp(2.4rem, 13vw, 5rem); }
+  .dates-list li { flex-direction: column; gap: 6px; }
+  .dates-row { grid-template-columns: 1fr; }
+  .dates-pic { width: min(72%, 300px); margin: 0 auto; }
+  .cal-months.three { grid-template-columns: 1fr; gap: 48px; }
+  .cal-months.three .cal-month-name { font-size: 1.7rem; }
+  .cal-months.three .cal-day { font-size: 1.15rem; }
+  .cal-months.three .cal-wd { font-size: .78rem; }
+}

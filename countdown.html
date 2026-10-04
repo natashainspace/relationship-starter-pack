@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>countdown | prizes&amp;punishments</title>
+  <meta name="theme-color" content="#0A0A0A">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%94%A5%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="countdown">
+  <main class="cd">
+    <nav class="cd-top" aria-label="Pages">
+      <span>countdown</span>
+      <a href="index.html">home</a>
+    </nav>
+
+    <div class="cd-hero">
+      <header>
+        <h1 class="cd-title">prizes&amp;<br>punishments</h1>
+        <p class="cd-when">09.10.2026, 21:15 moscow time</p>
+      </header>
+
+      <div class="cd-pile">
+        <button class="cd-pic" type="button" data-move="shake" aria-label="Shake the clown cat">
+          <img src="images/countdown-1.jpeg" alt="Toy cat in a clown costume. Caption: dominate me please">
+        </button>
+        <button class="cd-pic" type="button" data-move="jump" aria-label="Make the kitten jump">
+          <img src="images/countdown-2.jpeg" alt="Small grey and white kitten on a sofa">
+        </button>
+        <button class="cd-pic" type="button" data-move="spin" aria-label="Spin the ginger cat">
+          <img src="images/countdown-3.jpeg" alt="Ginger cat against storm clouds. Caption: your on my touch list, be ready">
+        </button>
+        <button class="cd-pic" type="button" data-move="pulse" aria-label="Pulse the candle and rose">
+          <img src="images/countdown-4.jpeg" alt="Candle and a red rose on a black background">
+        </button>
+      </div>
+    </div>
+
+    <dl class="cd-timer" id="timer" role="timer" aria-label="Time left">
+      <div class="cd-unit"><dt class="cd-label">days</dt><dd class="cd-num" id="d">0</dd></div>
+      <div class="cd-unit"><dt class="cd-label">hours</dt><dd class="cd-num" id="h">00</dd></div>
+      <div class="cd-unit"><dt class="cd-label">minutes</dt><dd class="cd-num" id="m">00</dd></div>
+      <div class="cd-unit"><dt class="cd-label">seconds</dt><dd class="cd-num" id="s">00</dd></div>
+    </dl>
+
+    <p class="cd-done" id="done" hidden>the time has come</p>
+
+  </main>
+
+  <script>
+    // ===== НАСТРОЙКИ СОБЫТИЯ =====
+    // Дата и время по Москве (+03:00). Чтобы поменять событие,
+    // измени эту строку, заголовок и дату в HTML выше.
+    var TARGET = new Date("2026-10-09T21:15:00+03:00").getTime();
+
+    var el = {
+      d: document.getElementById("d"),
+      h: document.getElementById("h"),
+      m: document.getElementById("m"),
+      s: document.getElementById("s"),
+      done: document.getElementById("done")
+    };
+
+    function pad(n) { return n < 10 ? "0" + n : "" + n; }
+
+    function tick() {
+      var left = Math.max(0, TARGET - Date.now());
+      var sec = Math.floor(left / 1000);
+      el.d.textContent = Math.floor(sec / 86400);
+      el.h.textContent = pad(Math.floor(sec % 86400 / 3600));
+      el.m.textContent = pad(Math.floor(sec % 3600 / 60));
+      el.s.textContent = pad(sec % 60);
+      if (left === 0) {
+        el.done.hidden = false;
+        clearInterval(timerId);
+      }
+    }
+
+    var timerId = setInterval(tick, 1000);
+    tick();
+
+    // ===== КАРТИНКИ ШЕВЕЛЯТСЯ ПО НАЖАТИЮ =====
+    document.querySelectorAll(".cd-pic").forEach(function (pic) {
+      pic.addEventListener("click", function () {
+        pic.classList.remove("is-moving");
+        void pic.offsetWidth;            // перезапуск анимации при повторном нажатии
+        pic.classList.add("is-moving");
+      });
+      pic.addEventListener("animationend", function () {
+        pic.classList.remove("is-moving");
+      });
+    });
+  </script>
+</body>
+</html>
