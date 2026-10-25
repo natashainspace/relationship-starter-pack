@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>countdown | one large kiss, please</title>
+  <meta name="theme-color" content="#D0E2F2">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%92%99%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="countdown">
+  <main class="cd">
+    <nav class="cd-top" aria-label="Pages">
+      <span>countdown</span>
+      <a href="index.html">home</a>
+    </nav>
+
+    <div class="cd-hero">
+      <header>
+        <h1 class="cd-title cd-title--long">can i order one large kiss with an extra long hug and a big portion of love please?</h1>
+        <p class="cd-when">31.10.2026, 13:03 moscow time</p>
+      </header>
+
+      <div class="cd-pile">
+        <button class="cd-pic" type="button" data-move="swim" aria-label="Make the shark swim">
+          <img src="images/countdown-1.jpeg" alt="Small blue shark toy. Caption: i am waiting for a kiss, where is my kiss, i need my kiss, kiss?">
+        </button>
+        <button class="cd-pic" type="button" data-move="pulse" aria-label="Kiss attack">
+          <img src="images/countdown-2.jpeg" alt="Two grey kittens cuddling. Caption: kiss attack">
+        </button>
+        <button class="cd-pic" type="button" data-move="jump" aria-label="Make the kitten jump">
+          <img src="images/countdown-3.jpeg" alt="Small tabby kitten with big eyes. Caption: i want to hug you">
+        </button>
+        <button class="cd-pic" type="button" data-move="faint" aria-label="Make the white kitten faint">
+          <img src="images/countdown-4.jpeg" alt="White kitten lying on its back. Caption: cause of death: missed you a lot">
+        </button>
+      </div>
+    </div>
+
+    <dl class="cd-timer" id="timer" role="timer" aria-label="Time left">
+      <div class="cd-unit"><dt class="cd-label">days</dt><dd class="cd-num" id="d">0</dd></div>
+      <div class="cd-unit"><dt class="cd-label">hours</dt><dd class="cd-num" id="h">00</dd></div>
+      <div class="cd-unit"><dt class="cd-label">minutes</dt><dd class="cd-num" id="m">00</dd></div>
+      <div class="cd-unit"><dt class="cd-label">seconds</dt><dd class="cd-num" id="s">00</dd></div>
+    </dl>
+
+    <!-- эта надпись заменяет счётчик, когда время пришло -->
+    <p class="cd-done" id="done" hidden>order is completed</p>
+
+  </main>
+
+  <script>
+    // ===== НАСТРОЙКИ СОБЫТИЯ =====
+    // Дата и время по Москве (+03:00). Чтобы поменять событие,
+    // измени эту строку, заголовок и дату в HTML выше.
+    var TARGET = new Date("2026-10-31T13:03:00+03:00").getTime();
+
+    var el = {
+      d: document.getElementById("d"),
+      h: document.getElementById("h"),
+      m: document.getElementById("m"),
+      s: document.getElementById("s"),
+      timer: document.getElementById("timer"),
+      done: document.getElementById("done")
+    };
+
+    // для проверки: countdown.html?now=2026-10-31T14:00:00%2B03:00
+    var testNow = new URLSearchParams(location.search).get("now");
+    function now() { return testNow ? new Date(testNow).getTime() : Date.now(); }
+
+    function pad(n) { return n < 10 ? "0" + n : "" + n; }
+
+    function tick() {
+      var left = Math.max(0, TARGET - now());
+      var sec = Math.floor(left / 1000);
+      el.d.textContent = Math.floor(sec / 86400);
+      el.h.textContent = pad(Math.floor(sec % 86400 / 3600));
+      el.m.textContent = pad(Math.floor(sec % 3600 / 60));
+      el.s.textContent = pad(sec % 60);
+      if (left === 0) {
+        el.timer.hidden = true;          // счётчик пропадает,
+        el.done.hidden = false;          // вместо него появляется надпись
+        clearInterval(timerId);
+      }
+    }
+
+    var timerId = setInterval(tick, 1000);
+    tick();
+
+    // ===== КАРТИНКИ ШЕВЕЛЯТСЯ ПО НАЖАТИЮ =====
+    document.querySelectorAll(".cd-pic").forEach(function (pic) {
+      pic.addEventListener("click", function () {
+        pic.classList.remove("is-moving");
+        void pic.offsetWidth;            // перезапуск анимации при повторном нажатии
+        pic.classList.add("is-moving");
+      });
+      pic.addEventListener("animationend", function () {
+        pic.classList.remove("is-moving");
+      });
+    });
+  </script>
+</body>
+</html>
