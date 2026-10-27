@@ -1,0 +1,982 @@
+/* ============================================================
+   Общие стили для всех страниц
+   Шрифт: Poppins ExtraBold (файл fonts/Poppins-ExtraBold.woff2)
+   ============================================================ */
+
+@font-face {
+  font-family: "Poppins";
+  src: url("fonts/Poppins-ExtraBold.woff2") format("woff2");
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* В Poppins нет кириллицы, поэтому русские буквы рисуются
+   похожим геометрическим шрифтом Montserrat ExtraBold */
+@font-face {
+  font-family: "Montserrat";
+  src: url("fonts/Montserrat-ExtraBold-Cyrillic.woff2") format("woff2");
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+
+/* Цвета страницы. На других страницах можно переопределить
+   эти три переменные и получить другую палитру. */
+:root {
+  --bg: #F3619C;        /* розовый фон */
+  --bg-deep: #E64689;   /* розовый потемнее, для рисунков на фоне */
+  --ink: #EDE986;       /* жёлтый текст */
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { height: 100%; }
+
+body {
+  margin: 0;
+  min-height: 100%;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: "Poppins", "Montserrat", "Arial Black", "Helvetica Neue", Arial, sans-serif;
+  font-weight: 800;
+  text-transform: lowercase;   /* всё маленькими буквами */
+  line-height: 1.1;
+  -webkit-font-smoothing: antialiased;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* ---------- Фон: сердечки и цветочки ---------- */
+/* Рисунки заданы масками, поэтому красятся в цвета из переменных. */
+
+body::before,
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* залитые фигуры, розовый потемнее */
+body::before {
+  background: var(--bg-deep);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='320' viewBox='0 0 320 320'%3E%3Cg fill='%23000'%3E%3Cpath transform='translate(60 50) rotate(-14) scale(1.5)' d='M0 7C-7-7-23 0-13 14L1 27 13 13C22 1 7-7 0 7Z'/%3E%3Cg transform='translate(235 95) rotate(12)'%3E%3Ccircle cx='0' cy='-17' r='12'/%3E%3Ccircle cx='16' cy='-5' r='12'/%3E%3Ccircle cx='10' cy='14' r='12'/%3E%3Ccircle cx='-10' cy='14' r='12'/%3E%3Ccircle cx='-16' cy='-5' r='12'/%3E%3C/g%3E%3Cpath transform='translate(150 215) rotate(18) scale(1.1)' d='M0 7C-7-7-23 0-13 14L1 27 13 13C22 1 7-7 0 7Z'/%3E%3Cg transform='translate(45 255) rotate(-20) scale(.7)'%3E%3Ccircle cx='0' cy='-17' r='12'/%3E%3Ccircle cx='16' cy='-5' r='12'/%3E%3Ccircle cx='10' cy='14' r='12'/%3E%3Ccircle cx='-10' cy='14' r='12'/%3E%3Ccircle cx='-16' cy='-5' r='12'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") 0 0 / 320px 320px repeat;
+          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='320' viewBox='0 0 320 320'%3E%3Cg fill='%23000'%3E%3Cpath transform='translate(60 50) rotate(-14) scale(1.5)' d='M0 7C-7-7-23 0-13 14L1 27 13 13C22 1 7-7 0 7Z'/%3E%3Cg transform='translate(235 95) rotate(12)'%3E%3Ccircle cx='0' cy='-17' r='12'/%3E%3Ccircle cx='16' cy='-5' r='12'/%3E%3Ccircle cx='10' cy='14' r='12'/%3E%3Ccircle cx='-10' cy='14' r='12'/%3E%3Ccircle cx='-16' cy='-5' r='12'/%3E%3C/g%3E%3Cpath transform='translate(150 215) rotate(18) scale(1.1)' d='M0 7C-7-7-23 0-13 14L1 27 13 13C22 1 7-7 0 7Z'/%3E%3Cg transform='translate(45 255) rotate(-20) scale(.7)'%3E%3Ccircle cx='0' cy='-17' r='12'/%3E%3Ccircle cx='16' cy='-5' r='12'/%3E%3Ccircle cx='10' cy='14' r='12'/%3E%3Ccircle cx='-10' cy='14' r='12'/%3E%3Ccircle cx='-16' cy='-5' r='12'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") 0 0 / 320px 320px repeat;
+}
+
+/* контурные каракули и серединки цветов, жёлтый */
+body::after {
+  background: var(--ink);
+  opacity: .55;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='320' viewBox='0 0 320 320'%3E%3Cg fill='none' stroke='%23000' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath transform='translate(270 235) rotate(10) scale(.9)' d='M0 7C-7-7-23 0-13 14L1 27 13 13C22 1 7-7 0 7Z'/%3E%3Cpath transform='translate(150 60) rotate(-22) scale(.6)' stroke-width='5' d='M0 7C-7-7-23 0-13 14L1 27 13 13C22 1 7-7 0 7Z'/%3E%3Cg transform='translate(110 150) rotate(-8) scale(.75)' stroke-width='4'%3E%3Ccircle cx='0' cy='-15' r='9'/%3E%3Ccircle cx='14' cy='-5' r='9'/%3E%3Ccircle cx='9' cy='12' r='9'/%3E%3Ccircle cx='-9' cy='12' r='9'/%3E%3Ccircle cx='-14' cy='-5' r='9'/%3E%3C/g%3E%3C/g%3E%3Cg fill='%23000'%3E%3Ccircle cx='235' cy='95' r='7'/%3E%3Ccircle cx='45' cy='255' r='5'/%3E%3Ccircle cx='200' cy='170' r='3'/%3E%3Ccircle cx='20' cy='140' r='3'/%3E%3Ccircle cx='300' cy='20' r='3'/%3E%3Ccircle cx='215' cy='295' r='3'/%3E%3C/g%3E%3C/svg%3E") 0 0 / 320px 320px repeat;
+          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='320' viewBox='0 0 320 320'%3E%3Cg fill='none' stroke='%23000' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath transform='translate(270 235) rotate(10) scale(.9)' d='M0 7C-7-7-23 0-13 14L1 27 13 13C22 1 7-7 0 7Z'/%3E%3Cpath transform='translate(150 60) rotate(-22) scale(.6)' stroke-width='5' d='M0 7C-7-7-23 0-13 14L1 27 13 13C22 1 7-7 0 7Z'/%3E%3Cg transform='translate(110 150) rotate(-8) scale(.75)' stroke-width='4'%3E%3Ccircle cx='0' cy='-15' r='9'/%3E%3Ccircle cx='14' cy='-5' r='9'/%3E%3Ccircle cx='9' cy='12' r='9'/%3E%3Ccircle cx='-9' cy='12' r='9'/%3E%3Ccircle cx='-14' cy='-5' r='9'/%3E%3C/g%3E%3C/g%3E%3Cg fill='%23000'%3E%3Ccircle cx='235' cy='95' r='7'/%3E%3Ccircle cx='45' cy='255' r='5'/%3E%3Ccircle cx='200' cy='170' r='3'/%3E%3Ccircle cx='20' cy='140' r='3'/%3E%3Ccircle cx='300' cy='20' r='3'/%3E%3Ccircle cx='215' cy='295' r='3'/%3E%3C/g%3E%3C/svg%3E") 0 0 / 320px 320px repeat;
+}
+
+/* ---------- Заглавная страница ---------- */
+
+.landing {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  min-height: 100svh;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: clamp(24px, 5vw, 64px);
+  display: grid;
+  grid-template-columns: 1.25fr 1fr;
+  grid-template-rows: 1fr auto;
+  gap: clamp(28px, 5vw, 64px);
+  align-items: center;
+}
+
+.landing-title {
+  margin: 0;
+  font-size: clamp(2.6rem, 7.6vw, 6.5rem);
+  line-height: 1;
+  letter-spacing: -.02em;
+  /* подложка цвета фона, чтобы рисунки не мешали читать */
+  text-shadow: 0 0 18px var(--bg), 0 0 18px var(--bg), 0 0 6px var(--bg);
+}
+
+.landing-sub {
+  display: inline-block;
+  margin: clamp(18px, 3vw, 32px) 0 0;
+  padding: .5em 1.1em .55em;
+  border-radius: 999px;
+  background: var(--ink);
+  color: var(--bg);
+  font-size: clamp(1.05rem, 2.4vw, 1.9rem);
+  transform: rotate(-2deg);
+}
+
+.landing-photo {
+  margin: 0;
+  justify-self: center;
+  width: min(100%, 440px);
+  transform: rotate(4deg);
+}
+
+.landing-photo img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 8px solid var(--ink);
+  border-radius: 36px;
+  background: var(--ink);
+}
+
+.landing-nav {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: clamp(12px, 2vw, 24px);
+}
+
+.pill {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.9em;
+  padding: .3em 1em;
+  line-height: 1;
+  border: 4px solid var(--ink);
+  border-radius: 999px;
+  background: var(--bg);
+  color: var(--ink);
+  font-size: clamp(1rem, 1.75vw, 1.45rem);
+  white-space: nowrap;
+  text-align: center;
+  text-decoration: none;
+  transition: background-color .15s, color .15s, transform .15s;
+}
+
+.pill:hover,
+.pill:focus-visible {
+  background: var(--ink);
+  color: var(--bg);
+  transform: translateY(-4px) rotate(-1.5deg);
+}
+
+.pill:focus-visible {
+  outline: 4px solid var(--bg);
+  outline-offset: 4px;
+  box-shadow: 0 0 0 12px var(--ink);
+}
+
+@media (max-width: 760px) {
+  .landing {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    align-content: center;
+    text-align: center;
+  }
+  .landing-title { font-size: clamp(2.6rem, 15vw, 5rem); }
+  .landing-photo { width: min(82%, 360px); }
+  .landing-nav { grid-template-columns: 1fr; }
+}
+
+@media (min-width: 761px) and (max-width: 1000px) {
+  .landing-nav { grid-template-columns: repeat(2, 1fr); }
+  .pill { font-size: 1.3rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pill { transition: none; }
+  .pill:hover, .pill:focus-visible { transform: none; }
+}
+
+
+/* ============================================================
+   Страница со счётчиком (body class="countdown")
+   ============================================================ */
+
+body.countdown {
+  --bg: #D0E2F2;        /* светло-голубой фон (saltwater sky) */
+  --ink: #3B5B8A;       /* синий текст (blue surf) */
+  --paper: #3B5B8A;     /* рамки картинок */
+}
+
+/* Фон: эмодзи тучек с дождиком и синих сердечек */
+body.countdown::before {
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='320' viewBox='0 0 320 320'%3E%3Ctext x='25' y='75' font-size='46' transform='rotate%28-6 25 75%29'%3E%F0%9F%8C%A7%EF%B8%8F%3C/text%3E%3Ctext x='210' y='105' font-size='30' transform='rotate%2812 210 105%29'%3E%F0%9F%92%99%3C/text%3E%3Ctext x='100' y='220' font-size='52' transform='rotate%285 100 220%29'%3E%F0%9F%8C%A7%EF%B8%8F%3C/text%3E%3Ctext x='250' y='275' font-size='26' transform='rotate%28-14 250 275%29'%3E%F0%9F%92%99%3C/text%3E%3Ctext x='160' y='45' font-size='20' transform='rotate%2818 160 45%29'%3E%F0%9F%92%99%3C/text%3E%3Ctext x='215' y='190' font-size='24' transform='rotate%28-8 215 190%29'%3E%F0%9F%8C%A7%EF%B8%8F%3C/text%3E%3Ctext x='25' y='295' font-size='22' transform='rotate%28-10 25 295%29'%3E%F0%9F%92%99%3C/text%3E%3C/svg%3E") 0 0 / 320px 320px repeat;
+  -webkit-mask: none;
+          mask: none;
+  opacity: .45;
+}
+
+body.countdown::after { display: none; }
+
+.cd {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  min-height: 100svh;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: clamp(16px, 3vw, 32px) clamp(20px, 5vw, 64px) clamp(32px, 5vw, 64px);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(20px, 3.5vw, 44px);
+}
+
+.cd-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+  padding-top: 12px;
+  border-top: 3px solid var(--ink);
+  font-size: clamp(.95rem, 1.5vw, 1.2rem);
+}
+
+.cd-top a {
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 3px solid transparent;
+}
+
+.cd-top a:hover,
+.cd-top a:focus-visible {
+  border-bottom-color: var(--ink);
+  outline: none;
+}
+
+.cd-title {
+  margin: 0;
+  font-size: clamp(2.5rem, 7.9vw, 6.6rem);
+  line-height: 1;
+  letter-spacing: -.02em;
+  text-shadow: 0 0 20px var(--bg), 0 0 20px var(--bg);
+}
+
+/* длинный заголовок-вопрос: мельче и плотнее */
+.cd-title--long {
+  font-size: clamp(1.9rem, 4.3vw, 3.7rem);
+  line-height: 1.05;
+  letter-spacing: -.015em;
+  max-width: 15em;
+}
+
+.cd-when {
+  margin: clamp(10px, 1.5vw, 18px) 0 0;
+  font-size: clamp(1rem, 1.9vw, 1.5rem);
+}
+
+.cd-timer {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: clamp(10px, 2vw, 28px);
+  margin: 0;
+  padding: clamp(14px, 2.2vw, 26px) 0;
+  border-top: 3px solid var(--ink);
+  border-bottom: 3px solid var(--ink);
+  background: var(--bg);
+}
+
+.cd-unit { display: flex; flex-direction: column-reverse; }
+
+.cd-num {
+  margin: 0;
+  font-size: clamp(3rem, 12.5vw, 10.5rem);
+  line-height: .95;
+  letter-spacing: -.03em;
+  font-variant-numeric: tabular-nums;
+}
+
+.cd-label {
+  margin-top: .5em;
+  font-size: clamp(.85rem, 1.7vw, 1.35rem);
+}
+
+/* надпись вместо счётчика, когда время пришло */
+.cd-done {
+  margin: 0;
+  padding: clamp(14px, 2.2vw, 26px) 0;
+  border-top: 3px solid var(--ink);
+  border-bottom: 3px solid var(--ink);
+  background: var(--bg);
+  font-size: clamp(2.4rem, 8.4vw, 7.2rem);
+  line-height: .95;
+  letter-spacing: -.03em;
+}
+
+.cd-timer[hidden], .cd-done[hidden] { display: none; }
+
+/* заголовок слева, стопка картинок-наклеек справа */
+.cd-hero {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: clamp(20px, 4vw, 56px);
+  align-items: center;
+}
+
+.cd-pile {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  width: 100%;
+  max-width: 500px;
+  justify-self: end;
+}
+
+.cd-pile .cd-pic {
+  position: absolute;
+  transition: scale .15s;
+}
+
+.cd-pile .cd-pic:hover,
+.cd-pile .cd-pic:focus-visible,
+.cd-pile .cd-pic.is-moving { z-index: 5; }
+.cd-pile .cd-pic:hover { scale: 1.04; }
+
+/* у каждой картинки свои пропорции, чтобы подписи не обрезались */
+.cd-pile .cd-pic:nth-child(1) { left: 0;   top: 2%;  width: 46%; aspect-ratio: 1 / 1;     rotate: -7deg; z-index: 1; }
+.cd-pile .cd-pic:nth-child(2) { left: 52%; top: 0;   width: 44%; aspect-ratio: .92 / 1;   rotate: 6deg;  z-index: 2; }
+.cd-pile .cd-pic:nth-child(3) { left: 3%;  top: 52%; width: 42%; aspect-ratio: 1 / 1;     rotate: 5deg;  z-index: 3; }
+.cd-pile .cd-pic:nth-child(4) { left: 40%; top: 54%; width: 60%; aspect-ratio: 1.38 / 1;  rotate: -4deg; z-index: 4; }
+
+.cd-pic {
+  display: block;
+  padding: 0;
+  border: 4px solid var(--paper);
+  border-radius: clamp(18px, 2.6vw, 34px);
+  background: var(--paper);
+  overflow: hidden;
+  cursor: pointer;
+  aspect-ratio: 1 / 1;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.cd-pic img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cd-pic:focus-visible {
+  outline: 4px solid var(--ink);
+  outline-offset: 4px;
+}
+
+/* движения по нажатию: у каждой картинки своё */
+.cd-pic.is-moving[data-move="shake"]  { animation: cd-shake .7s ease-in-out; }
+.cd-pic.is-moving[data-move="jump"]   { animation: cd-jump .7s cubic-bezier(.3, .6, .4, 1); }
+.cd-pic.is-moving[data-move="spin"]   { animation: cd-spin .8s cubic-bezier(.4, 0, .2, 1); }
+.cd-pic.is-moving[data-move="pulse"]  { animation: cd-pulse .8s ease-in-out; }
+.cd-pic.is-moving[data-move="pop"]    { animation: cd-pop .6s ease-out; }
+.cd-pic.is-moving[data-move="zoom"]   { animation: cd-zoom .9s cubic-bezier(.3, .7, .3, 1); }
+.cd-pic.is-moving[data-move="swim"]   { animation: cd-swim 1s ease-in-out; }
+.cd-pic.is-moving[data-move="faint"]  { animation: cd-faint 1.2s cubic-bezier(.5, 0, .3, 1); }
+
+.cd-pic.is-moving[data-move="flip"]   { animation: cd-flip .9s cubic-bezier(.4, 0, .2, 1); }
+
+/* переворачивается, как игральная карта */
+@keyframes cd-flip {
+  0% { transform: perspective(700px) rotateY(0) scale(1); }
+  50% { transform: perspective(700px) rotateY(180deg) scale(.9); }
+  100% { transform: perspective(700px) rotateY(360deg) scale(1); }
+}
+
+/* плывёт, как акула: туда-сюда с покачиванием */
+@keyframes cd-swim {
+  0%, 100% { transform: translateX(0) rotate(0); }
+  20% { transform: translateX(-14%) rotate(-6deg); }
+  45% { transform: translateX(12%) rotate(6deg); }
+  70% { transform: translateX(-6%) rotate(-3deg); }
+  85% { transform: translateX(3%) rotate(1deg); }
+}
+
+/* падает в обморок и поднимается обратно */
+@keyframes cd-faint {
+  0%, 100% { transform: rotate(0) translateY(0); }
+  35%, 60% { transform: rotate(80deg) translateY(10%); }
+  75% { transform: rotate(-8deg) translateY(0); }
+  88% { transform: rotate(3deg); }
+}
+
+/* лопается, как пузырик: сжалась, резко раздулась, вернулась */
+@keyframes cd-pop {
+  0%, 100% { transform: scale(1); }
+  25% { transform: scale(.82); }
+  45% { transform: scale(1.22); }
+  60% { transform: scale(.94); }
+  80% { transform: scale(1.05); }
+}
+
+/* наезжает прямо на зрителя и отъезжает обратно */
+@keyframes cd-zoom {
+  0%, 100% { transform: scale(1) rotate(0); }
+  40% { transform: scale(1.45) rotate(-6deg); }
+  65% { transform: scale(1.4) rotate(5deg); }
+}
+
+@keyframes cd-shake {
+  0%, 100% { transform: rotate(0); }
+  15% { transform: rotate(-9deg); }
+  30% { transform: rotate(8deg); }
+  45% { transform: rotate(-6deg); }
+  60% { transform: rotate(5deg); }
+  80% { transform: rotate(-2deg); }
+}
+
+@keyframes cd-jump {
+  0%, 100% { transform: translateY(0) scale(1, 1); }
+  20% { transform: translateY(0) scale(1.08, .9); }
+  45% { transform: translateY(-22%) scale(.95, 1.06); }
+  70% { transform: translateY(0) scale(1.06, .94); }
+  85% { transform: translateY(-6%) scale(1, 1); }
+}
+
+@keyframes cd-spin {
+  0% { transform: rotate(0) scale(1); }
+  50% { transform: rotate(180deg) scale(.8); }
+  100% { transform: rotate(360deg) scale(1); }
+}
+
+@keyframes cd-pulse {
+  0%, 100% { transform: scale(1); }
+  20% { transform: scale(1.14); }
+  40% { transform: scale(.96); }
+  60% { transform: scale(1.1); }
+  80% { transform: scale(.99); }
+}
+
+@media (max-width: 760px) {
+  .cd-title { font-size: clamp(2.2rem, 11.5vw, 5rem); }
+  .cd-timer { grid-template-columns: repeat(2, 1fr); row-gap: 22px; }
+  .cd-num { font-size: clamp(3.6rem, 25vw, 8rem); }
+  /* на телефоне: заголовок, счётчик, потом стопка картинок */
+  .cd-hero { display: contents; }
+  .cd-pile { order: 2; align-self: center; max-width: 420px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cal-day.open .cloud { animation: none; }
+  .cd-pic.is-moving { animation-duration: .01s !important; }
+}
+
+
+/* ============================================================
+   Страница с календарём (body class="calendar")
+   ============================================================ */
+
+body.calendar {
+  --bg: #D7EEFC;        /* голубой фон */
+  --ink: #4E4187;       /* фиолетовый текст */
+  --pink: #F3619C;      /* розовые сердечки */
+  --blue: #2B7BF0;      /* синие сердечки */
+  --paper: #4E4187;     /* рамки картинок */
+}
+
+body.calendar::before,
+body.calendar::after { display: none; }
+
+.cal-title {
+  margin: 0;
+  font-size: clamp(2.8rem, 9vw, 7.5rem);
+  line-height: 1;
+  letter-spacing: -.02em;
+}
+
+.cal-months {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: clamp(32px, 6vw, 88px);
+  align-items: start;
+}
+
+.cal-month-name {
+  margin: 0 0 clamp(10px, 1.5vw, 18px);
+  padding-bottom: clamp(8px, 1.2vw, 14px);
+  border-bottom: 3px solid var(--ink);
+  font-size: clamp(1.6rem, 3.4vw, 2.8rem);
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.cal-month-name span { font-size: .5em; }
+
+.cal-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  row-gap: clamp(4px, .8vw, 12px);
+}
+
+.cal-wd {
+  font-size: clamp(.7rem, 1.2vw, 1rem);
+  text-align: center;
+  opacity: .7;
+}
+
+.cal-day {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  display: grid;
+  place-items: center;
+  font-size: clamp(1rem, 1.9vw, 1.6rem);
+}
+
+/* дни с сердечками - это кнопки: по нажатию появляется облачко */
+button.cal-day {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  font-size: clamp(1rem, 1.9vw, 1.6rem);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+button.cal-day:focus-visible {
+  outline: 3px solid var(--ink);
+  outline-offset: 2px;
+  border-radius: 12px;
+}
+
+button.cal-day:hover svg,
+button.cal-day.open svg { transform: scale(1.08); }
+
+.cal-day svg { transition: transform .15s; }
+
+.cal-day .num { position: relative; z-index: 1; transform: translateY(-8%); }
+
+/* сердечко-обводка и крестик */
+.cal-day svg {
+  position: absolute;
+  inset: -4%;
+  width: 108%;
+  height: 108%;
+  overflow: visible;
+  fill: none;
+  stroke-width: 5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.cal-day.pink svg { stroke: var(--pink); }
+.cal-day.blue svg { stroke: var(--blue); }
+
+.cal-day .cross { display: none; stroke-width: 7; }
+.cal-day.past .cross { display: block; }
+.cal-day.past .num { opacity: .55; }
+
+/* облачко с комментарием */
+.cal-note {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  bottom: 96%;
+  z-index: 2;
+  display: none;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.cal-day.open { z-index: 3; }
+.cal-day.open .cal-note { display: flex; }
+.cal-day.open .cloud { animation: cloud-pop .22s cubic-bezier(.3, 1.4, .5, 1); }
+
+@keyframes cloud-pop {
+  from { transform: translateY(8px) scale(.6); opacity: 0; }
+  to   { transform: none; opacity: 1; }
+}
+
+/* у крайних колонок облачко прижато к краю, чтобы не вылезать за экран */
+.cal-note.at-start .cloud::after { left: 22px; }
+.cal-note.at-end .cloud::after { left: auto; right: 26px; }
+
+.cal-note.at-start { justify-content: flex-start; }
+.cal-note.at-end { justify-content: flex-end; }
+
+.cloud {
+  position: relative;
+  isolation: isolate;
+  flex: none;
+  margin-bottom: 9px;
+  padding: .4em .95em .5em;
+  border-radius: 999px;
+  background: var(--ink);
+  color: var(--bg);
+  font-size: clamp(.8rem, 1.25vw, 1.05rem);
+  white-space: nowrap;
+  transform-origin: 50% 100%;
+}
+
+/* бугорки облачка */
+.cloud::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  left: 18%;
+  top: -.5em;
+  width: 1.5em;
+  height: 1.5em;
+  border-radius: 50%;
+  background: var(--ink);
+  box-shadow: 1.5em -.2em 0 .22em var(--ink), 3.4em .15em 0 -.05em var(--ink);
+}
+
+/* хвостик из кружочков */
+.cloud::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -7px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--ink);
+  box-shadow: 7px 8px 0 -2px var(--ink);
+}
+
+/* заголовок слева, две картинки-наклейки внахлёст справа */
+.cal-hero {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: clamp(20px, 4vw, 56px);
+}
+
+.cal-pics {
+  flex: none;
+  display: flex;
+  align-items: flex-start;
+  padding: 12px 8px 30px 0;
+}
+
+.cal-pics .cd-pic {
+  width: clamp(130px, 15vw, 190px);
+  transition: scale .15s;
+}
+
+.cal-pics .cd-pic:hover { scale: 1.05; z-index: 3; }
+.cal-pics .cd-pic.is-moving { z-index: 3; }
+.cal-pics .cd-pic:nth-child(1) { rotate: -7deg; position: relative; z-index: 1; }
+.cal-pics .cd-pic:nth-child(2) { rotate: 6deg; position: relative; z-index: 2; margin: 26px 0 0 -22px; }
+
+@media (max-width: 860px) {
+  .cal-months { grid-template-columns: 1fr; gap: 48px; }
+  .cal-hero { flex-direction: column; align-items: flex-start; gap: 8px; }
+  .cal-pics { align-self: center; }
+  .cal-pics .cd-pic { width: min(40vw, 170px); }
+  button.cal-day { font-size: 1.15rem; }
+  .cal-title { font-size: clamp(2.8rem, 15vw, 6rem); }
+  .cal-day { font-size: 1.15rem; }
+  .cal-wd { font-size: .78rem; }
+  .cloud { font-size: .82rem; }
+}
+
+
+/* ============================================================
+   Страница с важными датами (body class="dates")
+   ============================================================ */
+
+body.dates {
+  --bg: #838F58;        /* матча, фон */
+  --ink: #F9D1D9;       /* строуберри, текст */
+  --paper: #F9D1D9;     /* рамка картинки */
+}
+
+body.dates::before,
+body.dates::after { display: none; }
+
+.dates-title {
+  margin: 0;
+  font-size: clamp(2.4rem, 7.6vw, 6.4rem);
+  line-height: 1.02;
+  letter-spacing: -.02em;
+}
+
+/* список дат слева, картинка справа */
+.dates-row {
+  display: grid;
+  grid-template-columns: 1fr clamp(220px, 27vw, 340px);
+  gap: clamp(28px, 5vw, 72px);
+  align-items: center;
+}
+
+.dates-pic { rotate: 4deg; }
+
+/* список важных дат */
+.dates-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 3px solid var(--ink);
+}
+
+.dates-list li {
+  display: flex;
+  align-items: baseline;
+  gap: clamp(16px, 4vw, 56px);
+  padding: clamp(10px, 1.6vw, 20px) 0 clamp(12px, 1.8vw, 22px);
+  border-bottom: 3px solid var(--ink);
+}
+
+.dates-list time {
+  flex: none;
+  min-width: 3.2em;
+  font-size: clamp(2.2rem, 6.5vw, 5.2rem);
+  line-height: .9;
+  letter-spacing: -.02em;
+}
+
+.dates-list span { font-size: clamp(1.1rem, 2.6vw, 2.1rem); }
+
+/* три месяца в ряд */
+.cal-months.three {
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(24px, 3.6vw, 52px);
+}
+
+.cal-months.three .cal-month-name { font-size: clamp(1.4rem, 2.5vw, 2.1rem); }
+.cal-months.three .cal-day { font-size: clamp(.95rem, 1.45vw, 1.25rem); }
+.cal-months.three .cal-wd { font-size: clamp(.62rem, .95vw, .82rem); }
+
+/* неаккуратный кружочек-росчерк */
+.cal-day.scribble svg {
+  stroke: var(--ink);
+  stroke-width: 3.5;
+  inset: -12%;
+  width: 124%;
+  height: 124%;
+}
+
+.cal-day.scribble .num { transform: none; }
+
+@media (max-width: 860px) {
+  .dates-title { font-size: clamp(2.4rem, 13vw, 5rem); }
+  .dates-list li { flex-direction: column; gap: 6px; }
+  .dates-row { grid-template-columns: 1fr; }
+  .dates-pic { width: min(72%, 300px); margin: 0 auto; }
+  .cal-months.three { grid-template-columns: 1fr; gap: 48px; }
+  .cal-months.three .cal-month-name { font-size: 1.7rem; }
+  .cal-months.three .cal-day { font-size: 1.15rem; }
+  .cal-months.three .cal-wd { font-size: .78rem; }
+}
+
+
+
+/* ============================================================
+   Страница с игрой (body class="casino")
+   ============================================================ */
+
+body.casino {
+  --bg: #162311;        /* тёмно-зелёный фон */
+  --ink: #BA0001;       /* красный текст на фоне */
+  --card: #E8ECD1;      /* светло-зелёные карточки */
+  --card-ink: #162311;  /* тёмно-зелёный текст на карточках */
+  --paper: #E8ECD1;     /* рамка картинки */
+}
+
+/* Фон: эмодзи джокера и игрового автомата, приглушённые */
+body.casino::before {
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='320' viewBox='0 0 320 320'%3E%3Ctext x='30' y='75' font-size='44' transform='rotate%28-12 30 75%29'%3E%F0%9F%83%8F%3C/text%3E%3Ctext x='200' y='110' font-size='34' transform='rotate%288 200 110%29'%3E%F0%9F%8E%B0%3C/text%3E%3Ctext x='95' y='220' font-size='50' transform='rotate%28-5 95 220%29'%3E%F0%9F%8E%B0%3C/text%3E%3Ctext x='250' y='275' font-size='28' transform='rotate%2814 250 275%29'%3E%F0%9F%83%8F%3C/text%3E%3Ctext x='165' y='45' font-size='20' transform='rotate%2820 165 45%29'%3E%F0%9F%83%8F%3C/text%3E%3Ctext x='25' y='300' font-size='22' transform='rotate%28-8 25 300%29'%3E%F0%9F%8E%B0%3C/text%3E%3C/svg%3E") 0 0 / 320px 320px repeat;
+  -webkit-mask: none;
+          mask: none;
+  filter: saturate(.55) brightness(.6);
+  opacity: .3;
+}
+
+body.casino::after { display: none; }
+
+.casino-hero {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: clamp(20px, 4vw, 56px);
+}
+
+.casino-hero .cd-pic {
+  flex: none;
+  width: clamp(140px, 19vw, 240px);
+  rotate: 6deg;
+  margin-right: 8px;
+}
+
+/* ---------- карточки с вопросами ---------- */
+
+.game {
+  width: min(100%, 640px);
+  margin: 0 auto;
+  display: grid;          /* все карточки в одной ячейке: стопка */
+}
+
+.qcard {
+  grid-area: 1 / 1;
+  position: relative;
+  padding: clamp(22px, 4vw, 40px);
+  border-radius: clamp(24px, 3vw, 36px);
+  background: var(--card);
+  color: var(--card-ink);
+  transition: transform .55s cubic-bezier(.5, 0, .3, 1), opacity .45s, filter .4s;
+}
+
+/* положение карточек в стопке */
+.qcard.is-current { z-index: 3; }
+.qcard.is-next    { z-index: 2; transform: translate(14px, 16px) rotate(2.5deg); filter: brightness(.78); pointer-events: none; }
+.qcard.is-waiting { z-index: 1; transform: translate(26px, 30px) rotate(5deg); filter: brightness(.6); pointer-events: none; }
+.qcard.is-later   { visibility: hidden; }
+.qcard.is-gone    { z-index: 4; transform: translateX(-135%) rotate(-16deg); opacity: 0; pointer-events: none; }
+
+.q-count {
+  margin: 0 0 .9em;
+  font-size: clamp(.85rem, 1.4vw, 1rem);
+  opacity: .6;
+}
+
+.q-text {
+  margin: 0 0 1em;
+  font-size: clamp(1.3rem, 3vw, 1.95rem);
+  line-height: 1.18;
+  padding-right: 1.6em;   /* место под эмодзи */
+}
+
+.q-options {
+  display: grid;
+  gap: 10px;
+  margin: 0 0 22px;
+  padding: 0;
+  list-style: none;
+}
+
+.q-opt {
+  width: 100%;
+  padding: .75em 1.1em .8em;
+  border: 3px solid var(--card-ink);
+  border-radius: 18px;
+  background: transparent;
+  color: var(--card-ink);
+  font: inherit;
+  font-size: clamp(1rem, 2vw, 1.2rem);
+  line-height: 1.2;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color .12s, color .12s;
+}
+
+.q-opt:hover { background: rgba(22, 35, 17, .1); }
+
+.q-opt.is-selected {
+  background: var(--card-ink);
+  color: var(--card);
+}
+
+.q-opt.is-wrong {
+  border-color: var(--ink);
+  background: var(--ink);
+  color: var(--card);
+}
+
+.q-opt:focus-visible,
+.q-submit:focus-visible {
+  outline: 3px solid var(--ink);
+  outline-offset: 3px;
+}
+
+.q-options.is-locked .q-opt { cursor: default; }
+.q-options.is-locked .q-opt:not(.is-selected):not(.is-wrong) { opacity: .45; }
+
+.q-submit {
+  display: block;
+  margin-left: auto;
+  padding: .55em 1.6em .6em;
+  border: 0;
+  border-radius: 999px;
+  background: var(--ink);
+  color: var(--card);
+  font: inherit;
+  font-size: clamp(1.1rem, 2.2vw, 1.4rem);
+  cursor: pointer;
+  transition: transform .12s, opacity .12s;
+}
+
+.q-submit:hover:not(:disabled) { transform: translateY(-2px) rotate(-1.5deg); }
+.q-submit:disabled { opacity: .35; cursor: default; }
+
+/* эмодзи-реакция в углу карточки */
+.q-emoji {
+  position: absolute;
+  top: -.35em;
+  right: -.2em;
+  font-size: clamp(3.4rem, 7vw, 5rem);
+  line-height: 1;
+  pointer-events: none;
+  animation: q-pop .4s cubic-bezier(.3, 1.6, .5, 1);
+}
+
+@keyframes q-pop {
+  from { transform: scale(0) rotate(-30deg); }
+  to   { transform: scale(1) rotate(0); }
+}
+
+/* неправильно: карточка мотает головой «нет» */
+.qcard.is-no { animation: q-no .75s ease-in-out; }
+
+@keyframes q-no {
+  0%, 100% { transform: translateX(0) rotate(0); }
+  15% { transform: translateX(-22px) rotate(-3deg); }
+  32% { transform: translateX(20px) rotate(3deg); }
+  50% { transform: translateX(-15px) rotate(-2deg); }
+  68% { transform: translateX(10px) rotate(1.5deg); }
+  84% { transform: translateX(-4px) rotate(-.5deg); }
+}
+
+/* правильно: довольный подскок */
+.qcard.is-yes { animation: q-yes .6s cubic-bezier(.3, 1.4, .5, 1); }
+
+@keyframes q-yes {
+  0%, 100% { transform: scale(1); }
+  40% { transform: scale(1.04) translateY(-8px); }
+}
+
+/* ---------- итог и приз ---------- */
+
+.result-score {
+  margin: 0 0 .35em;
+  font-size: clamp(3rem, 10vw, 6rem);
+  line-height: .95;
+  letter-spacing: -.03em;
+  color: var(--ink);
+}
+
+.result-score span { font-size: .4em; letter-spacing: 0; }
+
+.result-label {
+  margin: 0 0 .35em;
+  font-size: clamp(.85rem, 1.4vw, 1rem);
+  opacity: .6;
+}
+
+.result-prize {
+  margin: 0;
+  font-size: clamp(1.4rem, 3.4vw, 2.2rem);
+  line-height: 1.18;
+}
+
+.result-note {
+  margin: 1.4em 0 0;
+  padding-top: 1em;
+  border-top: 3px solid var(--card-ink);
+  font-size: clamp(.9rem, 1.6vw, 1.05rem);
+  line-height: 1.3;
+}
+
+@media (max-width: 760px) {
+  .casino-hero { flex-direction: column; align-items: flex-start; gap: 10px; }
+  .casino-hero .cd-pic { align-self: center; width: min(52vw, 220px); }
+  .qcard.is-next    { transform: translate(8px, 12px) rotate(2deg); }
+  .qcard.is-waiting { transform: translate(15px, 22px) rotate(4deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .qcard { transition: opacity .2s; }
+  .qcard.is-gone { transform: none; }
+  .qcard.is-no, .qcard.is-yes, .q-emoji { animation: none; }
+}

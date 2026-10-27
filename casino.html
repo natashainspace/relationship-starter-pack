@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>casino | hope you are all in</title>
+  <meta name="theme-color" content="#162311">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8E%B0%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="casino">
+  <main class="cd">
+    <nav class="cd-top" aria-label="Pages">
+      <span>casino</span>
+      <a href="index.html">home</a>
+    </nav>
+
+    <div class="casino-hero">
+      <h1 class="cd-title">hope you are<br>all in</h1>
+
+      <button class="cd-pic" type="button" data-move="flip" aria-label="Flip the poker cat">
+        <img src="images/casino-1.jpeg" alt="Black and white cat at a poker table with cards and chips">
+      </button>
+    </div>
+
+    <section class="game" id="game" aria-live="polite"></section>
+  </main>
+
+  <script>
+    // ===== НАСТРОЙКИ ИГРЫ =====
+    // Номер игры. Для новой игры поменяй номер (например, на "game-2"),
+    // вопросы и призы: тогда игру снова можно будет пройти один раз.
+    var GAME_ID = "game-1";
+
+    // Вопросы: текст, 4 варианта, номер правильного варианта (считая с 0)
+    var QUESTIONS = [
+      { q: "сколько раз наташа хочет сходить в дринкит, пока она с тобой в москве?",
+        options: ["1", "3", "5", "как можно больше"], correct: 3 },
+      { q: "любимый десертик наташи",
+        options: ["бэбифоксы", "вова", "тирамису", "молочное лакомство"], correct: 1 },
+      { q: "как сильно ты любишь наташу?",
+        options: ["норм", "очень", "очень-очень", "я бы записал для нее рэп"], correct: 3 },
+      { q: "сколько бататика ты готов съесть с наташей?",
+        options: ["ну пару раз поесть можно", "ну пару пачек можно съесть",
+                  "ну какое-то время можно и только его поесть",
+                  "столько сколько угодно пока ей не надоест"], correct: 3 },
+      { q: "как сильно ты соскучился по наташе?",
+        options: ["сильно", "очень сильно", "я ее съем когда увижу", "ну когда же уже.... когда...."], correct: 2 }
+    ];
+
+    // Призы по количеству правильных ответов
+    var PRIZES = {
+      0: "в этот раз без приза 🥲",
+      1: "один поцелуйчик 😚",
+      2: "два поцелуйчика 😚😚",
+      3: "чесание спинки ногтями с гель лаком 3 минуты 😋",
+      4: "фул сервис по чесанию спинки ногтями с гель лаком, поцелуйчикам и массажу головы 🤭",
+      5: "наташа не щекочет тебя один день 🫪"
+    };
+
+    var RIGHT_EMOJI = "😊";
+    var WRONG_EMOJI = "😡";
+    // ==========================
+
+    // ----- сохранение прогресса в браузере -----
+    var KEY = "casino-" + GAME_ID;
+
+    function load() {
+      try {
+        var data = JSON.parse(localStorage.getItem(KEY));
+        if (data && Array.isArray(data.answers)) return data;
+      } catch (e) {}
+      return { answers: [] };
+    }
+
+    function save() {
+      try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {}
+    }
+
+    var state = load();          // ответы, которые уже даны (номера вариантов)
+    var cards = [];
+    var game = document.getElementById("game");
+
+    function score() {
+      return state.answers.filter(function (a, i) { return a === QUESTIONS[i].correct; }).length;
+    }
+
+    // ----- карточки -----
+    function questionCard(item, i) {
+      var card = document.createElement("article");
+      card.className = "qcard";
+      card.innerHTML =
+        '<p class="q-count">question ' + (i + 1) + " of " + QUESTIONS.length + "</p>" +
+        '<h2 class="q-text"></h2>' +
+        '<ul class="q-options"></ul>' +
+        '<button class="q-submit" type="button" disabled>answer</button>';
+      card.querySelector(".q-text").textContent = item.q;
+
+      var list = card.querySelector(".q-options");
+      var submit = card.querySelector(".q-submit");
+      var chosen = -1;
+
+      item.options.forEach(function (text, k) {
+        var li = document.createElement("li");
+        var btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "q-opt";
+        btn.textContent = text;
+        btn.setAttribute("aria-pressed", "false");
+        btn.addEventListener("click", function () {
+          if (list.classList.contains("is-locked")) return;
+          chosen = k;
+          list.querySelectorAll(".q-opt").forEach(function (b, j) {
+            b.classList.toggle("is-selected", j === k);
+            b.setAttribute("aria-pressed", j === k ? "true" : "false");
+          });
+          submit.disabled = false;
+        });
+        li.appendChild(btn);
+        list.appendChild(li);
+      });
+
+      submit.addEventListener("click", function () {
+        if (chosen < 0 || list.classList.contains("is-locked")) return;
+        list.classList.add("is-locked");
+        submit.disabled = true;
+
+        var right = chosen === item.correct;
+        var picked = list.querySelectorAll(".q-opt")[chosen];
+        if (!right) { picked.classList.remove("is-selected"); picked.classList.add("is-wrong"); }
+
+        var emoji = document.createElement("span");
+        emoji.className = "q-emoji";
+        emoji.setAttribute("aria-hidden", "true");
+        emoji.textContent = right ? RIGHT_EMOJI : WRONG_EMOJI;
+        card.appendChild(emoji);
+        card.classList.add(right ? "is-yes" : "is-no");
+
+        state.answers.push(chosen);
+        save();
+
+        setTimeout(function () {
+          card.classList.remove("is-yes", "is-no");
+          next();
+        }, 1500);
+      });
+
+      return card;
+    }
+
+    // hidden = true: карточка лежит в стопке до конца игры и не выдаёт результат
+    function resultCard(playedBefore, hidden) {
+      var s = hidden ? "?" : score();
+      var card = document.createElement("article");
+      card.className = "qcard result";
+      card.innerHTML =
+        '<p class="result-label">your result</p>' +
+        '<p class="result-score">' + s + " <span>of " + QUESTIONS.length + "</span></p>" +
+        '<p class="result-label">your prize</p>' +
+        '<p class="result-prize"></p>' +
+        '<p class="result-note">' +
+        (playedBefore
+          ? "this game is already played. the next one is coming soon 😉"
+          : "show this to natusik to claim your prize. this game can only be played once") +
+        "</p>";
+      card.querySelector(".result-prize").textContent = hidden ? "…" : PRIZES[s];
+      return card;
+    }
+
+    // раскладывает карточки: текущая сверху, две следующие видны сзади
+    function layout() {
+      var cur = state.answers.length;
+      cards.forEach(function (c, i) {
+        c.classList.remove("is-current", "is-next", "is-waiting", "is-later", "is-gone");
+        if (i < cur) c.classList.add("is-gone");
+        else if (i === cur) c.classList.add("is-current");
+        else if (i === cur + 1) c.classList.add("is-next");
+        else if (i === cur + 2) c.classList.add("is-waiting");
+        else c.classList.add("is-later");
+        c.inert = i !== cur;
+      });
+    }
+
+    function next() {
+      if (state.answers.length === QUESTIONS.length) {
+        // вопросы кончились: показываем настоящий итог
+        var last = cards.length - 1;
+        var fresh = resultCard(false, false);
+        fresh.className = cards[last].className;
+        game.replaceChild(fresh, cards[last]);
+        cards[last] = fresh;
+      }
+      layout();
+      // убираем улетевшие карточки, когда анимация закончилась
+      setTimeout(function () {
+        cards.forEach(function (c, i) { if (i < state.answers.length) c.hidden = true; });
+      }, 600);
+    }
+
+    // ----- старт -----
+    var finished = state.answers.length >= QUESTIONS.length;
+
+    if (finished) {
+      // игра уже пройдена: показываем только итог и приз
+      cards = [resultCard(true, false)];
+      game.appendChild(cards[0]);
+      cards[0].classList.add("is-current");
+    } else {
+      QUESTIONS.forEach(function (item, i) { cards.push(questionCard(item, i)); });
+      cards.push(resultCard(false, true));
+      cards.forEach(function (c) { game.appendChild(c); });
+      layout();
+      cards.forEach(function (c, i) { if (i < state.answers.length) c.hidden = true; });
+    }
+
+    // ===== КАРТИНКА ШЕВЕЛИТСЯ ПО НАЖАТИЮ =====
+    document.querySelectorAll(".cd-pic").forEach(function (pic) {
+      pic.addEventListener("click", function () {
+        pic.classList.remove("is-moving");
+        void pic.offsetWidth;
+        pic.classList.add("is-moving");
+      });
+      pic.addEventListener("animationend", function () {
+        pic.classList.remove("is-moving");
+      });
+    });
+  </script>
+</body>
+</html>
