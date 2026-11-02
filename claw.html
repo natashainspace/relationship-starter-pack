@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>casino | claw machine</title>
+  <meta name="theme-color" content="#162311">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%A7%B8%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="casino">
+  <main class="cd">
+    <nav class="cd-top" aria-label="Pages">
+      <span>claw machine</span>
+      <a href="casino.html">back to casino</a>
+    </nav>
+
+    <h1 class="cd-title">grab it<br>if you can</h1>
+
+    <div class="machine-layout">
+      <div class="machine-stage">
+        <svg class="machine-svg" id="machine" viewBox="0 0 400 560" role="img" aria-label="Claw machine full of plushies">
+          <defs>
+            <clipPath id="glass-clip"><rect x="75" y="92" width="250" height="278"/></clipPath>
+            <clipPath id="door-clip"><rect x="78" y="443" width="114" height="74" rx="5"/></clipPath>
+          </defs>
+
+          <g stroke="#1D1D2B" stroke-width="5" stroke-linejoin="round">
+            <!-- корпус -->
+            <rect x="70" y="6" width="260" height="22" rx="6" fill="#B89CF7"/>
+            <rect x="40" y="18" width="320" height="64" rx="14" fill="#7E6BB3"/>
+            <rect x="70" y="32" width="260" height="36" rx="6" fill="#2145E8"/>
+            <rect x="55" y="80" width="290" height="302" fill="#B89CF7"/>
+            <!-- стекло -->
+            <rect x="75" y="92" width="250" height="278" fill="#BFF4F7"/>
+          </g>
+          <text x="200" y="57" text-anchor="middle" font-size="21" fill="#BFF4F7">kiss claw</text>
+          <!-- блики на стекле -->
+          <path d="M95 125 L122 104 M95 145 L140 108" stroke="#fff" stroke-width="4" stroke-linecap="round"/>
+
+          <!-- всё, что внутри стекла -->
+          <g clip-path="url(#glass-clip)">
+            <!-- лоток для приза -->
+            <rect x="75" y="294" width="66" height="80" fill="#A2E3E8"/>
+            <!-- шарики -->
+            <g stroke="#1D1D2B" stroke-width="3" id="balls"></g>
+            <!-- игрушки -->
+            <g id="toys"></g>
+            <!-- стенка лотка поверх игрушек -->
+            <rect x="139" y="292" width="10" height="82" fill="#B89CF7" stroke="#1D1D2B" stroke-width="4"/>
+            <!-- рельс и клешня -->
+            <rect x="75" y="92" width="250" height="9" fill="#7E6BB3" stroke="#1D1D2B" stroke-width="3"/>
+            <line id="cable" x1="200" y1="100" x2="200" y2="125" stroke="#3A3A46" stroke-width="5"/>
+            <g id="claw">
+              <g id="arm-l"><path d="M-6 4 C -24 10 -28 28 -15 40" fill="none" stroke="#1D1D2B" stroke-width="9" stroke-linecap="round"/><path d="M-6 4 C -24 10 -28 28 -15 40" fill="none" stroke="#8A8A98" stroke-width="4" stroke-linecap="round"/></g>
+              <g id="arm-r"><path d="M6 4 C 24 10 28 28 15 40" fill="none" stroke="#1D1D2B" stroke-width="9" stroke-linecap="round"/><path d="M6 4 C 24 10 28 28 15 40" fill="none" stroke="#8A8A98" stroke-width="4" stroke-linecap="round"/></g>
+              <rect x="-15" y="-12" width="30" height="18" rx="5" fill="#5A5A68" stroke="#1D1D2B" stroke-width="4"/>
+              <circle cx="0" cy="-3" r="4" fill="#BFF4F7" stroke="#1D1D2B" stroke-width="2"/>
+            </g>
+          </g>
+          <rect x="75" y="92" width="250" height="278" fill="none" stroke="#1D1D2B" stroke-width="5"/>
+
+          <g stroke="#1D1D2B" stroke-width="5" stroke-linejoin="round">
+            <!-- панель управления -->
+            <path d="M40 380 H360 L350 422 H50 Z" fill="#7E6BB3"/>
+            <!-- низ корпуса -->
+            <rect x="55" y="422" width="290" height="116" fill="#B89CF7"/>
+            <rect x="48" y="536" width="304" height="16" rx="5" fill="#7E6BB3"/>
+            <!-- дверца, куда падает приз -->
+            <rect x="75" y="440" width="120" height="80" rx="7" fill="#99A6F7"/>
+            <!-- экранчик со спинами -->
+            <rect x="222" y="446" width="104" height="56" rx="7" fill="#2145E8"/>
+            <!-- джойстик -->
+            <line x1="312" y1="404" x2="312" y2="384" stroke-width="6" stroke-linecap="round"/>
+          </g>
+          <circle cx="312" cy="380" r="9" fill="#3A3A46" stroke="#1D1D2B" stroke-width="4"/>
+          <text x="274" y="470" text-anchor="middle" font-size="12" fill="#BFF4F7">spins</text>
+          <text x="274" y="492" text-anchor="middle" font-size="20" fill="#BFF4F7" id="screen">0</text>
+          <g clip-path="url(#door-clip)"><g id="door-toy"></g></g>
+
+          <!-- кнопка на автомате: запускает игру -->
+          <g class="hit claw-btn" id="claw-btn" role="button" tabindex="0" aria-label="Push the button to play">
+            <circle class="hit-ring" cx="262" cy="401" r="22" fill="none" stroke="#E8ECD1" stroke-width="3"/>
+            <ellipse cx="262" cy="405" rx="15" ry="10" fill="#8C1A1A" stroke="#1D1D2B" stroke-width="4"/>
+            <g class="claw-btn-face">
+              <ellipse cx="262" cy="400" rx="14" ry="9" fill="#E8473A" stroke="#1D1D2B" stroke-width="4"/>
+              <ellipse cx="258" cy="397" rx="5" ry="2.5" fill="#FFB3A8"/>
+            </g>
+            <circle cx="262" cy="401" r="30" fill="transparent"/>
+          </g>
+        </svg>
+        <p class="machine-help">push the red button on the machine</p>
+      </div>
+
+      <section id="spins" aria-label="Your spins"></section>
+    </div>
+  </main>
+
+  <script src="casino.js"></script>
+  <script>
+    Casino.panel(document.getElementById("spins"));
+
+    var NS = "http://www.w3.org/2000/svg";
+    var svg = document.getElementById("machine");
+    var screen = document.getElementById("screen");
+    function updateScreen() { screen.textContent = Casino.total(); }
+    updateScreen();
+    Casino.onChange(updateScreen);
+    setInterval(updateScreen, 1000);
+
+    function node(tag, attrs, parent) {
+      var e = document.createElementNS(NS, tag);
+      for (var k in attrs) e.setAttribute(k, attrs[k]);
+      if (parent) parent.appendChild(e);
+      return e;
+    }
+
+    // ===== шарики на дне =====
+    var balls = document.getElementById("balls");
+    var BALL_COLORS = ["#2F66E8", "#5B9BF0", "#1F4FC9", "#7DB4F5"];
+    for (var i = 0; i < 18; i++) {
+      node("circle", { cx: 156 + (i % 9) * 21 + (i > 8 ? 10 : 0), cy: i > 8 ? 352 : 366, r: 13,
+                       fill: BALL_COLORS[i % 4] }, balls);
+    }
+
+    // ===== игрушки: свои мультяшные плюшевые зверушки =====
+    var OUT = { stroke: "#1D1D2B", "stroke-width": 3 };
+    function withOut(a) { for (var k in OUT) a[k] = OUT[k]; return a; }
+
+    function face(g, eyeY, mouth) {
+      node("circle", { cx: -7, cy: eyeY, r: 2.6, fill: "#1D1D2B" }, g);
+      node("circle", { cx: 7, cy: eyeY, r: 2.6, fill: "#1D1D2B" }, g);
+      node("ellipse", { cx: -12, cy: eyeY + 6, rx: 3.5, ry: 2, fill: "#FF8FA3", opacity: .7 }, g);
+      node("ellipse", { cx: 12, cy: eyeY + 6, rx: 3.5, ry: 2, fill: "#FF8FA3", opacity: .7 }, g);
+      if (mouth) node("path", { d: mouth, fill: "none", stroke: "#1D1D2B", "stroke-width": 2.2, "stroke-linecap": "round" }, g);
+    }
+
+    function body(g, color) {
+      node("ellipse", withOut({ cx: -12, cy: 18, rx: 6, ry: 4, fill: color }), g);   // лапки
+      node("ellipse", withOut({ cx: 12, cy: 18, rx: 6, ry: 4, fill: color }), g);
+      node("path", withOut({ d: "M0 -19 C 15 -19 21 -6 21 5 C 21 16 12 21 0 21 C -12 21 -21 16 -21 5 C -21 -6 -15 -19 0 -19 Z", fill: color }), g);
+    }
+
+    var KINDS = {
+      duck: function (g) {
+        body(g, "#FFD54A");
+        node("path", withOut({ d: "M-2 -18 C -6 -26 2 -28 3 -22 C 6 -27 11 -24 6 -18", fill: "#FFD54A" }), g);
+        face(g, -4);
+        node("ellipse", withOut({ cx: 0, cy: 5, rx: 8, ry: 4.5, fill: "#FF9F43" }), g);
+      },
+      cat: function (g) {
+        node("path", withOut({ d: "M-17 -8 L-15 -27 L-4 -17 Z", fill: "#C9A7F5" }), g);
+        node("path", withOut({ d: "M17 -8 L15 -27 L4 -17 Z", fill: "#C9A7F5" }), g);
+        body(g, "#C9A7F5");
+        face(g, -3, "M-5 5 Q -2.5 8 0 5 Q 2.5 8 5 5");
+      },
+      frog: function (g) {
+        body(g, "#8FDCA6");
+        node("circle", withOut({ cx: -9, cy: -17, r: 7, fill: "#8FDCA6" }), g);
+        node("circle", withOut({ cx: 9, cy: -17, r: 7, fill: "#8FDCA6" }), g);
+        node("circle", { cx: -9, cy: -17, r: 2.8, fill: "#1D1D2B" }, g);
+        node("circle", { cx: 9, cy: -17, r: 2.8, fill: "#1D1D2B" }, g);
+        node("path", { d: "M-9 2 Q 0 10 9 2", fill: "none", stroke: "#1D1D2B", "stroke-width": 2.4, "stroke-linecap": "round" }, g);
+        node("ellipse", { cx: -13, cy: 2, rx: 3.5, ry: 2, fill: "#FF8FA3", opacity: .7 }, g);
+        node("ellipse", { cx: 13, cy: 2, rx: 3.5, ry: 2, fill: "#FF8FA3", opacity: .7 }, g);
+      },
+      bear: function (g) {
+        node("circle", withOut({ cx: -14, cy: -14, r: 7, fill: "#F2D3A2" }), g);
+        node("circle", withOut({ cx: 14, cy: -14, r: 7, fill: "#F2D3A2" }), g);
+        body(g, "#F2D3A2");
+        face(g, -4);
+        node("ellipse", withOut({ cx: 0, cy: 6, rx: 7.5, ry: 5.5, fill: "#FFF0D6" }), g);
+        node("ellipse", { cx: 0, cy: 4.5, rx: 3, ry: 2, fill: "#1D1D2B" }, g);
+      },
+      bunny: function (g) {
+        node("ellipse", withOut({ cx: -7, cy: -26, rx: 5, ry: 13, fill: "#FFC2B4" }), g);
+        node("ellipse", withOut({ cx: 7, cy: -26, rx: 5, ry: 13, fill: "#FFC2B4" }), g);
+        body(g, "#FFC2B4");
+        face(g, -3);
+        node("path", { d: "M-2 4 L2 4 L0 6.5 Z", fill: "#E8473A" }, g);
+      }
+    };
+    var KIND_NAMES = Object.keys(KINDS);
+
+    // где лежат игрушки (x, y), сверху вниз видны три ряда
+    var SPOTS = [
+      [170, 347], [208, 349], [246, 346], [284, 349], [316, 346],
+      [189, 308], [228, 310], [267, 307], [305, 310],
+      [208, 270], [248, 272], [288, 269],
+      [229, 233], [270, 235]
+    ];
+    var TOY_SCALE = 1.2, CLAW_SCALE = 1.3, HOLD = 43;   // размеры и где игрушка висит в клешне
+    var REACH_FROM = 9;                                // тянемся только к верхним рядам
+    var toysLayer = document.getElementById("toys");
+    var toys = SPOTS.map(function (p, i) {
+      var g = node("g", { "class": "toy" }, toysLayer);
+      var art = node("g", {}, g);
+      var kind = KIND_NAMES[i % KIND_NAMES.length];
+      KINDS[kind](art);
+      var t = { el: g, kind: kind, hx: p[0], hy: p[1], x: p[0], y: p[1], r: (i * 37 % 21) - 10 };
+      t.hr = t.r;
+      placeToy(t);
+      return t;
+    });
+
+    function placeToy(t) {
+      t.el.setAttribute("transform", "translate(" + t.x.toFixed(1) + " " + t.y.toFixed(1) + ") rotate(" + t.r.toFixed(1) + ") scale(" + TOY_SCALE + ")");
+    }
+
+    // ===== клешня =====
+    var HOME_X = 200, TOP_Y = 128, CHUTE_X = 108;
+    var C = { x: HOME_X, y: TOP_Y, open: 0, held: null };
+    var clawEl = document.getElementById("claw");
+    var armL = document.getElementById("arm-l");
+    var armR = document.getElementById("arm-r");
+    var cable = document.getElementById("cable");
+
+    function render() {
+      clawEl.setAttribute("transform", "translate(" + C.x.toFixed(1) + " " + C.y.toFixed(1) + ") scale(" + CLAW_SCALE + ")");
+      var a = -14 + 36 * C.open;
+      armL.setAttribute("transform", "rotate(" + a.toFixed(1) + " -6 4)");
+      armR.setAttribute("transform", "rotate(" + (-a).toFixed(1) + " 6 4)");
+      cable.setAttribute("x1", C.x.toFixed(1));
+      cable.setAttribute("x2", C.x.toFixed(1));
+      cable.setAttribute("y2", (C.y - 13).toFixed(1));
+      if (C.held) {
+        C.held.x = C.x;
+        C.held.y = C.y + HOLD;
+        placeToy(C.held);
+      }
+    }
+    render();
+
+    // ===== анимация =====
+    var ease = {
+      inOut: function (p) { return p < .5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2; },
+      in: function (p) { return p * p; },
+      out: function (p) { return 1 - (1 - p) * (1 - p); },
+      linear: function (p) { return p; }
+    };
+
+    function tween(ms, fn, e) {
+      e = e || ease.inOut;
+      return new Promise(function (done) {
+        var t0 = performance.now();
+        function frame(now) {
+          var p = Math.min(1, (now - t0) / ms);
+          fn(e(p), p);
+          if (p < 1) requestAnimationFrame(frame); else done();
+        }
+        requestAnimationFrame(frame);
+      });
+    }
+
+    function wait(ms) { return new Promise(function (r) { setTimeout(r, ms); }); }
+    function lerp(a, b, p) { return a + (b - a) * p; }
+
+    function moveClaw(key, to, ms, e) {
+      var from = C[key];
+      return tween(ms, function (p) { C[key] = lerp(from, to, p); render(); }, e);
+    }
+
+    // игрушка падает вниз с отскоком
+    function fall(t, toX, toY, ms) {
+      var x0 = t.x, y0 = t.y, r0 = t.r, r1 = t.hr;
+      return tween(ms, function (p, raw) {
+        t.x = lerp(x0, toX, raw);
+        var b = raw < .75 ? ease.in(raw / .75) : 1 - Math.sin((raw - .75) / .25 * Math.PI) * .06;
+        t.y = lerp(y0, toY, b);
+        t.r = lerp(r0, r1, raw);
+        placeToy(t);
+      }, ease.linear);
+    }
+
+    // игрушка ударяется о край лотка и отскакивает обратно в кучу
+    async function bounceBack(t) {
+      await fall(t, 152, 262, 380);
+      var x0 = t.x, y0 = t.y;
+      await tween(650, function (p) {
+        t.x = lerp(x0, t.hx, p);
+        t.y = lerp(y0, t.hy, p) - Math.sin(p * Math.PI) * 38;
+        t.r = lerp(t.r, t.hr, p);
+        placeToy(t);
+      }, ease.linear);
+      t.x = t.hx; t.y = t.hy; t.r = t.hr; placeToy(t);
+    }
+
+    var doorToy = document.getElementById("door-toy");
+
+    async function play(outcome) {
+      doorToy.innerHTML = "";
+      // к игрушке тянемся только в верхних рядах
+      var reachable = toys.filter(function (t, i) { return i >= REACH_FROM; });
+      var target = reachable[Math.floor(Math.random() * reachable.length)];
+
+      var how = outcome.win ? "win" : ["empty", "slip", "miss", "slip", "miss"][Math.floor(Math.random() * 5)];
+      var aimX = target.hx + (how === "empty" ? (Math.random() < .5 ? -1 : 1) * 32 : 0);
+      aimX = Math.max(165, Math.min(300, aimX));
+
+      await moveClaw("x", aimX, 900 + Math.abs(aimX - C.x) * 4);
+      await moveClaw("open", 1, 260);
+      await moveClaw("y", target.hy - (how === "empty" ? 30 : HOLD), 950);
+      await wait(120);
+      await moveClaw("open", 0, 280);
+
+      if (how === "empty") {
+        // промахнулась: игрушка только качнулась
+        await tween(400, function (p) { target.r = target.hr + Math.sin(p * Math.PI * 3) * 10; placeToy(target); }, ease.linear);
+        await moveClaw("y", TOP_Y, 900);
+        await moveClaw("x", HOME_X, 800);
+        return;
+      }
+
+      C.held = target;
+      toysLayer.appendChild(target.el);   // схваченная игрушка поверх остальных
+      target.r = 0;
+      await wait(150);
+
+      if (how === "slip") {
+        // поднимает, но игрушка выскальзывает
+        await moveClaw("y", lerp(C.y, TOP_Y, .55), 650);
+        await tween(260, function (p) { C.open = p * .45; render(); });
+        C.held = null;
+        await Promise.all([
+          fall(target, target.hx, target.hy, 520),
+          moveClaw("y", TOP_Y, 500)
+        ]);
+        await moveClaw("open", 0, 200);
+        await moveClaw("x", HOME_X, 800);
+        return;
+      }
+
+      await moveClaw("y", TOP_Y, 950);
+
+      if (how === "miss") {
+        // везёт к лотку, но роняет чуть-чуть мимо
+        await moveClaw("x", 158, 900);
+        await tween(200, function (p) { C.open = p * .7; render(); });
+        C.held = null;
+        await bounceBack(target);
+        await moveClaw("open", 0, 200);
+        await moveClaw("x", HOME_X, 800);
+        return;
+      }
+
+      // выигрыш: роняет точно в лоток
+      await moveClaw("x", CHUTE_X, 1100);
+      await wait(150);
+      await tween(220, function (p) { C.open = p; render(); });
+      C.held = null;
+      await fall(target, CHUTE_X, 420, 520);
+
+      // игрушка вываливается в дверцу снизу
+      var prize = node("g", {}, doorToy);
+      KINDS[target.kind](node("g", {}, prize));
+      await tween(420, function (p) {
+        prize.setAttribute("transform", "translate(135 " + lerp(420, 488, p).toFixed(1) + ") rotate(" + (p * -14).toFixed(1) + ") scale(" + TOY_SCALE + ")");
+      }, ease.out);
+
+      // на её место падает новая игрушка
+      target.y = 60; target.x = target.hx; placeToy(target);
+      var back = Promise.all([
+        moveClaw("open", 0, 220).then(function () { return moveClaw("x", HOME_X, 800); }),
+        wait(300).then(function () { return fall(target, target.hx, target.hy, 650); })
+      ]);
+      await back;
+    }
+
+    // ===== кнопка =====
+    var btn = document.getElementById("claw-btn");
+    var busy = false;
+
+    async function start() {
+      if (busy) return;
+      if (!Casino.guard()) return;
+      var outcome = Casino.spin("claw machine");
+      if (!outcome) { Casino.outOfSpins(); return; }
+      busy = true;
+      svg.classList.add("is-busy");
+      btn.classList.add("is-off", "is-pressed");
+      setTimeout(function () { btn.classList.remove("is-pressed"); }, 160);
+      await play(outcome);
+      await wait(250);
+      Casino.result(outcome);
+      busy = false;
+      svg.classList.remove("is-busy");
+      btn.classList.remove("is-off");
+    }
+
+    btn.addEventListener("click", start);
+    btn.addEventListener("keydown", function (e) {
+      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); start(); }
+    });
+
+    // зашёл без спинов - сразу говорим
+    if (Casino.total() === 0) setTimeout(Casino.outOfSpins, 400);
+  </script>
+</body>
+</html>
